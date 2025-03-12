@@ -1,0 +1,26 @@
+.fullscreen-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0; 
+  }
+  
+  .heading {
+    font-size: 24px;
+    padding: 20px 0;
+    font-weight: 700;
+  }
+
+  .accountant_card, .admin_card {
+    transition: transform 0.3s ease-in-out; 
+}
+
+  .accountant_card:hover{
+    transform: scale(1.02);
+  }
+
+  .admin_card:hover{
+    transform: scale(1.02);
+  }

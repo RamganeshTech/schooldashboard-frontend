@@ -1,0 +1,50 @@
+.mainDiv{
+    background-color: #f0eff3;
+}
+
+.leftDiv{
+    padding: 50px 0;
+    background-color: #F6F5FA;
+}
+
+.titleDiv h2{
+    margin-bottom: 15px;    
+}
+
+.titleDiv p{
+    color: var(--subheading-color);
+    font-size: 14px;
+    letter-spacing: 0px;
+}
+
+.emailDiv label, .passDiv label{
+    margin-bottom: 10px;
+}
+
+.emailDiv, .passDiv {
+    margin-bottom: 25px;
+}
+
+.errorMessage{
+    color:red;
+    position: absolute;
+}
+
+.loginErrorMainDiv{
+    position: absolute;
+    color: red;
+    height: 50px;
+    top: 200px;
+    width:27%;
+    display: flex;
+    align-items: center;
+    justify-items: center;  
+    border-radius: 16px;
+}
+
+.loginErrorMainDiv p{
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+}

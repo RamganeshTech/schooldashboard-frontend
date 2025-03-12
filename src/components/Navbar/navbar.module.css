@@ -1,0 +1,35 @@
+.navbarDiv{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px;
+    background-color: white;
+}
+
+.innerDiv{
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center ;
+    height: 90%;
+}
+
+.navbarDiv .innerDiv .navbarheading{
+    color: var( --icons-outline-color);
+}
+
+.btnContainer{
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center ;   
+    gap: 0px; 
+}
+
+.accountant_btn_container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center ;   
+}
+

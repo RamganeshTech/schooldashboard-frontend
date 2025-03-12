@@ -1,0 +1,176 @@
+.popupOverlay {
+    width: 90vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popupContent {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    height: 70%;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+
+.paymentcontainer{
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-height: 45vh;
+    overflow: scroll;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+
+    
+}
+
+.popupTable {
+    width: 100%;
+    border-collapse: collapse;
+    height: 100%;
+}
+
+.popupTable th, .popupTable td {
+    padding: 15px;
+    text-align: center;
+}
+
+.popupTable th {
+    background-color: var(--thead-bg-color);
+    background-color:#66aefc;
+    color: #ffffff;
+    font-size: 20px
+}
+
+.popupTable thead tr th:first-child{
+    border-top-left-radius: 16px;
+}
+
+.popupTable thead tr th:last-child{
+    border-top-right-radius: 16px;
+}
+
+.popupContent thead{
+    border: none;
+}
+
+.popupTable tbody tr td{
+    font-size: 20px;
+    font-weight: 500;
+    border: 1px solid #ddd;
+}
+
+.popupContent .emptyMessageContainer{
+    height:15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.popupContent .emptyMessage{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+
+
+.changescontainer{
+    max-height: 40vh;
+    width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 0 10px;
+    border-radius: 10px;
+    overflow: scroll;
+}
+
+.changeddatasingle {
+    margin: 5px 0;
+    width: 100%;
+    padding: 0 10px;
+    border-radius: 10px;
+}
+
+.changescontainer .changesinnercontainer{
+    overflow: scroll;
+}
+
+.changescontainer h1{
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    color: #66aefc;
+    text-decoration: underline;
+    
+}
+
+.changescontainer .changedStudentName p{
+        font-size: 20px;
+        font-weight: 500;
+}
+
+.changescontainer .changedStudentName p span{
+    font-size: 22px;
+    color: #6b6b6b;
+}
+
+.changescontainer .changedStudentFieldsContainer{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    display: flex;
+    white-space: nowrap;
+}
+
+
+.changedStudentFieldsContainer h3{
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.changedStudentFields{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.changedStudentFields p{
+    font-size: 20px;
+    color: #6b6b6b;
+    color: #0a0a0a;
+    font-weight: 500;
+}
+
+.changedStudentFields p span{
+    font-size: 1em;
+    color: #66aefc;
+    color: #6b6b6b;
+
+    font-weight: 500;
+}
+
+
+.emptyMessageChangeContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 15vh;
+}

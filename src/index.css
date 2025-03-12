@@ -1,0 +1,45 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+
+@import "tailwindcss";
+
+
+:root{  
+  --thead-bg-color:  #e1e6eb;
+  --thead-bg-color-secondary:  #F8FAFC;
+  
+  --tbody-bg-color: lightgreen;
+  --thead-border-color:  #EBF5FF;
+  --tbody-border-color: #F1F5F9;
+  
+  --icons-bg-color: #EFF0F6;
+  --icons-outline-color: #6E7191;
+  --normal-text-color: #1D1D1D;
+  --active-icons-bg: #2C9F70;
+
+  --heading-color: #22815a;
+  --btn-bg-color: #F4C57E;
+  --fee-expired-bg-color:#FF3535;
+  --highlight-text-color:#94A3B8;
+
+  --input-border: #E2E8F0;
+  --input-placeholder: #E2E8F0;
+
+  --subheading-color: #64748B;
+
+  --background-div-color: #F6F5FA;
+
+}
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}

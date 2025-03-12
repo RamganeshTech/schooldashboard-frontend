@@ -1,0 +1,12 @@
+.tbody-row{
+    border-radius: 10px;
+    border-bottom: 2px solid var(--tbody-border-color);  
+}
+
+.tbody_cell{
+    padding: 10px;
+    width: 200px;
+    color: var(--normal-text-color);  
+    vertical-align: middle;
+    text-align: center;
+}

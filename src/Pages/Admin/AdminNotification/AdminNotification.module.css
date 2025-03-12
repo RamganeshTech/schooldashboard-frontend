@@ -1,0 +1,67 @@
+.notiContainer {
+    
+    padding: 20px;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 25px;
+    flex-direction: column;
+}
+
+.notiContainer .notiHeading {
+    font-size: 34px;
+    
+    color: var(--subheading-color);
+    font-weight: 500;
+}
+
+.notiContainer .notiDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 30%;
+    
+    width: 90%;
+    border-radius: 16px;
+    padding: 20px 40px;
+    background-color: #fbfbfb;
+}
+
+.notiContainer .notiDiv p {
+    font-size: 20px;
+    color: var(--normal-text-color);
+    color: #393737;
+    font-weight: 500;
+}
+
+.notiContainer .notiDiv p span {
+    font-weight: 600;
+    color: var(--subheading-color);
+    
+}
+
+.notiDiv .fieldGrp{
+    
+    
+    height: 90%;
+    overflow: scroll;
+    cursor: ns-resize; 
+}
+
+.accessBtnGrp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 17%;
+}
+
+.notiContainer .noNotificationHeading{
+    font-size: 34px;
+    color: var(--icons-outline-color);
+    color: var(--highlight-text-color);
+    color: #1d1d1d;
+    font-weight: 500;
+}
+

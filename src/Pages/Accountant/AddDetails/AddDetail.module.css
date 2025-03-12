@@ -1,0 +1,35 @@
+.mainDiv{
+    padding: 0px 20px;
+    background-color: #fff;
+    
+    overflow: scroll;
+    margin: 10px 0;
+}
+
+.heading{
+    margin: 10px 0 25px;
+    color: var(--subheading-color);
+    font-weight: 600;
+}
+
+.table_container{
+    padding: 10px;
+    height: auto;
+}
+
+.thead_cell {
+    font-size: 16px;
+    text-wrap: nowrap;
+    padding: 10px;
+    width: 200px;
+    color: var(--highlight-text-color);
+}
+
+.thead_cell:nth-child(1){
+    border-top-left-radius: 16px;
+} 
+
+.thead_cell:last-child{
+    border-top-right-radius: 20px;
+}
+

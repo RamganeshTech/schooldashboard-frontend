@@ -1,0 +1,37 @@
+.tbody-row{
+    border-radius: 10px;
+    border-bottom: 2px solid var(--tbody-border-color);  
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.tbody_cell{
+    padding: 15px 0;
+    margin: 5px 0;
+    color: var(--normal-text-color);
+    border-bottom: 2px solid var(--tbody-border-color);  
+    text-align: center;
+    font-weight: 500;
+    font-size: 18px;
+    overflow-x: scroll ;
+    white-space: nowrap;
+}
+
+.NoAvailMesg{
+    font-size: 500;
+}
+
+.danger {
+    background-color: #ff4d4d; 
+    color: white;
+    font-weight: bold;
+}
+
+.warning {
+    background-color: #ffcd05; 
+    color: black;
+    font-weight: bold;
+}
+

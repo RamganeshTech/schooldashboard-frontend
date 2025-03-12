@@ -1,0 +1,17 @@
+.thead_cell {
+    font-size: 18px;
+    text-wrap: nowrap;
+    padding: 20px;
+    width: 200px;
+    color: var(--highlight-text-color);
+    background-color: var(--thead-bg-color);
+}
+
+.thead_cell:nth-child(1){
+    border-top-left-radius: 16px;
+} 
+
+.thead_cell:last-child{
+    border-top-right-radius: 20px;
+}
+

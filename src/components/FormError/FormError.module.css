@@ -1,0 +1,56 @@
+.errorContainer{
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: auto;
+
+}
+
+.errorMsgSection{
+    padding: 20px;
+    width: 50%;
+    z-index: 101;
+    position: relative;
+    background-color: white;
+    pointer-events: auto;
+    border-radius: 16px;
+    opacity: 1;
+    max-height: 80vh;
+    overflow-y : auto;
+}
+
+.closeButton button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+}
+
+.errorMsgDiv{
+    margin: 20px;
+    text-align: center;
+    
+}
+
+.errorHeading{
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--icons-outline-color);
+}
+
+.errorMsgs{
+    font-size: 18px;
+    font-weight: 500;
+}

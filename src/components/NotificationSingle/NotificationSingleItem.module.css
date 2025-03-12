@@ -1,0 +1,35 @@
+.notiDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 30vh;
+    width: 90vw;
+    border-radius: 16px;
+    padding: 20px 40px;
+    background-color: #fbfbfb;
+}
+
+ .notiDiv p {
+    font-size: 20px;
+    color: var(--normal-text-color);
+    color: #393737;
+    font-weight: 500;
+}
+
+ .notiDiv p span {
+    font-weight: 600;
+    color: var(--subheading-color);
+}
+
+.notiDiv .fieldGrp{
+    height: 90%;
+    overflow: scroll;
+    cursor: ns-resize; 
+}
+
+.accessBtnGrp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 17%; 
+}
