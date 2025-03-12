@@ -6,7 +6,7 @@ import SchoolContextProvider from './Context/SchoolContextProvider.tsx';
 import { AuthProvider } from './Context/AuthProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
-  // <StrictMode>
+  <StrictMode>
   <AuthProvider>
     <SchoolContextProvider>
 
@@ -14,5 +14,5 @@ createRoot(document.getElementById('root')!).render(
 
     </SchoolContextProvider>
   </AuthProvider>
-  // </StrictMode>,
+  </StrictMode>,
 )
