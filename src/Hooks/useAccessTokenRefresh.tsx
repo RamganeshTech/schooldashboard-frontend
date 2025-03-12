@@ -1,6 +1,6 @@
 import React from 'react'
 
-const useAccessTokenRefresh = () => {
+const useAccessTokenRefresh:React.FC = () => {
   return (
     <div>useAccessTokenRefresh</div>
   )
