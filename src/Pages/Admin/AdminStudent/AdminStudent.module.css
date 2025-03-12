@@ -44,13 +44,13 @@
 .tbody_group .tbody_cell_no_students{
    
 
-    padding: 15px 0;
+    padding: 35px 0;
     margin: 5px 0;
     color: var(--normal-text-color);
     border-bottom: 2px solid var(--tbody-border-color);  
     text-align: center;
     font-weight: 500;
-    font-size: 22px;
+    font-size: 28px;
     overflow-x: scroll ;
     white-space: nowrap;
 }

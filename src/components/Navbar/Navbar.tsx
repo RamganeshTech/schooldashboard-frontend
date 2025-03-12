@@ -107,24 +107,20 @@ const Navbar:React.FC = () => {
       } as CustomAxiosRequestConfig<void>
       );
 
-      console.log(data)
       if (data.ok) {
         navigate('/');
-        console.log(data.message)
       } else {
-        console.error(data.message);
         throw new Error(data.message)
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        alert(err.message)
+        console.log(err.message)
       }
       else if (err instanceof Error) {
-        console.error("Logout failed:", err.message);
-        alert(err.message)
+        console.log("Logout failed:", err.message);
       }
       else {
-        alert("something went wrong")
+        console.log("something went wrong")
       }
     }
   };
@@ -138,24 +134,20 @@ const Navbar:React.FC = () => {
       );
 
 
-      console.log(data)
       if (data.ok) {
         navigate('/');
-        console.log(data.message)
       } else {
-        console.error(data.message);
         throw new Error(data.message)
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        alert(err.message)
+        console.log(err.message)
       }
       else if (err instanceof Error) {
-        console.error("Logout failed:", err.message);
-        alert(err.message)
+        console.log("Logout failed:", err.message);
       }
       else {
-        alert("something went wrong")
+        console.log("something went wrong")
       }
     }
   }
@@ -167,11 +159,9 @@ const Navbar:React.FC = () => {
           userType: "accountant"
         } as CustomAxiosRequestConfig<void>);
 
-        console.log(data)
-        console.log("calling the inner fetchAccountantPermission ", data)
-        setHasReportAccess(data.permissionStatus);
+       setHasReportAccess(data.permissionStatus);
       } catch (error) {
-        console.error("Failed to fetch permission status", error);
+        console.log("Failed to fetch permission status", error);
       }
     };
 

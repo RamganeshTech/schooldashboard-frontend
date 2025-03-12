@@ -74,14 +74,6 @@ const AccountantInputGroup: React.FC<AccountantInputGroupProps> = ({ student, se
                             }
                         }
 
-                        if(ele === "studentName"){
-                            console.log("from AccountantInputGroup component value of studentName", ele, student[ele])
-                        }
-
-                        if(ele === "section"){
-
-                            console.log("from AccountantInputGroup component value of section", ele, student[ele])
-                        }
                         return (
                             <td key={ele} className={`${style.tbody_cell}`}>
                                 <Input
