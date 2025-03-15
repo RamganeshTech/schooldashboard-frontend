@@ -14,6 +14,7 @@ const TableHeadingGrp:React.FC = () => {
          <tr className={`${style.thead_row}`}>
                 <th className={`${style.thead_cell}  `}>S.NO</th>
                 <th className={`${style.thead_cell}  `}>NEW/OLD</th>
+                <th className={`${style.thead_cell}  `}>CLASS</th>
                 <th className={`${style.thead_cell}  `}>SECTION</th>
                 <th className={`${style.thead_cell}  `}>STUDENT NAME</th>
 

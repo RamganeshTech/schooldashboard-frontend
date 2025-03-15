@@ -4,6 +4,7 @@ export interface StudentDetailnew {
   _id?: string | number | null
 
   newOld: (string | null);
+  studentClass:(string | null)
   section: (string | null);
   studentName: (string | null);
 
@@ -47,6 +48,7 @@ export interface ErrorStudent {
   _id?: string | number | null
 
   newOld?: string;
+  studentClass?:string;
   section?: string;
   studentName?: (string | null);
 

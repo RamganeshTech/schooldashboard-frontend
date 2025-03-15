@@ -13,6 +13,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [student, setStudent] = useState<StudentDetailnew>({
     newOld: null,
+    studentClass:null,
     section: null,
     studentName: null,
     adminssionAmt: null,
@@ -51,6 +52,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [editStudent, setEditStudent] = useState<StudentDetailnew>({
     newOld: null,
+    studentClass:null,
     studentName: null,
     section: null,
     adminssionAmt: null,
@@ -144,7 +146,8 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setState: React.Dispatch<React.SetStateAction<T>>,
   ) => {
     try {
-      if (typeof value === "string" && value.includes("-") && !isNaN(new Date(value).getTime())) {
+      if (typeof value === "string" && value.includes("-") && !isNaN(new Date(value).getTime()) && key!=="studentClass") {
+        console.log(key, value)
         if (new Date(value) > new Date()) { //checking is selected date is in future or not
           setState((prev) => {
             return { ...prev, [key]: "" }
@@ -174,6 +177,8 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const studentNameRegex = /^[A-Za-z .]+$/;
     const oldNewRegex = /^(old|new)$/i
     const sectionRegex = /^[A-Za-z0-9]+$/
+    const classRegex = /^[A-Za-z0-9|\.]+$/;
+
     const whatsappRegex = /^\d{10}$/; 
 
 
@@ -183,6 +188,18 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     else if (!oldNewRegex.test(student.newOld)) {
       error.newOld = "NEW/OLD column should contain either New or Old";
     }
+
+    if (!student.studentClass) {
+      error.studentClass = "Enter the class";
+    }
+    else if (!classRegex.test(student.studentClass)) {
+      error.studentClass = "Class should not contain any special characters except '|' and '.' ";
+    }
+    // Check if the class consists of only '0's
+    else if (/^0+$/.test(student.studentClass)) {
+      error.studentClass = "Class should not be only zero";
+    }
+    
 
     if (!student.section) {
       error.section = "Enter the section"

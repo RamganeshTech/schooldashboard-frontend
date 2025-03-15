@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { Button, CircularProgress, TextField } from '@mui/material';
+import { Box, Button, CircularProgress, IconButton, TextField } from '@mui/material';
 import { createdResponse, CustomAxiosRequestConfig, LoginCredentials } from '../../../Types/types';
 
 import style from './AccountantLoginCreation.module.css'
@@ -10,6 +10,7 @@ import { SchoolContext } from '../../../Context/SchoolContextProvider';
 import axios from 'axios';
 import axiosInstance from '../../../Api/apiClient';
 import MainLoading from '../../../components/MainLoading/MainLoading';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const AccountantLoginCreation = () => {
 
@@ -29,6 +30,9 @@ const AccountantLoginCreation = () => {
         email: "",
         password: "",
     });
+
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    
 
     const handleSubmit = async (e: React.FormEvent) => {
         try {
@@ -182,7 +186,7 @@ const AccountantLoginCreation = () => {
                                 </label>
                                 <div className="relative">
                                     <TextField
-                                        type='password'
+                                        type={showPassword ? "text" : "password"}
                                         value={accountantNewLogin.password}
                                         onChange={(e) => setAccountantNewLogin((prev: LoginCredentials) => ({ ...prev, password: e.target.value }))}
                                         placeholder='Password'
@@ -216,8 +220,24 @@ const AccountantLoginCreation = () => {
                                             }
                                         }}
                                     />
-                                    <i className="fas fa-eye absolute right-3 top-3 text-gray-400">
-                                    </i>
+                                      <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            right: '10px',
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </Box>
+                                    {/* <i className="fas fa-eye absolute right-3 top-3 text-gray-400">
+                                    </i> */}
                                 </div>
                             </div>
                             

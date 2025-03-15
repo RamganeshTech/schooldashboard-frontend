@@ -68,6 +68,11 @@ const AddDetail:React.FC = () => {
     getStudentList()
   }, [])
 
+
+  useEffect(()=>{
+    console.log(student)
+}, [student])
+
   if(loading){
     return <MainLoading />
   }

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import style from './logincomponet.module.css'
-import { Button, CircularProgress, TextField } from '@mui/material';
+import { Box, Button, CircularProgress, IconButton, TextField } from '@mui/material';
 import { LoginCredentials } from '../../../Types/types';
 import accountant from "../../../assets/accountant_login.jpg"
 import admin from "../../../assets/admin_login.jpg"
@@ -11,6 +11,7 @@ import { SchoolContext } from '../../../Context/SchoolContextProvider';
 
 import axios from 'axios'
 import MainLoading from '../../../components/MainLoading/MainLoading';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const AdminLogin = () => {
 
@@ -18,7 +19,7 @@ const AdminLogin = () => {
         accessToken: string;
         message: string;
         ok: boolean;
-        viewPermission?:boolean;
+        viewPermission?: boolean;
     }
 
     const context = useContext(SchoolContext);
@@ -26,7 +27,7 @@ const AdminLogin = () => {
     if (!context) return <MainLoading />;
 
     const { apiUrl } = context
-    
+
 
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
@@ -49,6 +50,7 @@ const AdminLogin = () => {
 
     const [controller, setController] = useState<AbortController | null>(null);
 
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     useEffect(() => {
         if (location.pathname === "/adminlogin") {
@@ -65,8 +67,8 @@ const AdminLogin = () => {
         setLoading(true);
         setMainLoginError("")
 
-        
-        controller?.abort(); 
+
+        controller?.abort();
 
         const newController = new AbortController();
         setController(newController);
@@ -74,21 +76,21 @@ const AdminLogin = () => {
 
         try {
             const { data } = await axios.post<LoginResponse>(
-                `${apiUrl}/api/admin/adminLogin`, 
+                `${apiUrl}/api/admin/adminLogin`,
                 adminLoginData,
                 {
-                    withCredentials: true, 
+                    withCredentials: true,
                     headers: {
-                        
+
                         "Content-Type": "application/json",
                     },
                     signal: newController.signal,
                 }
             );
 
-          
 
-            if (data.ok) {                
+
+            if (data.ok) {
                 navigate("../admin")
             } else {
                 throw new Error(data.message || "Login failed");
@@ -101,13 +103,13 @@ const AdminLogin = () => {
 
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                
+
                 setMainLoginError(error.response?.data?.message || "Something went wrong!");
             } else if (error instanceof Error) {
-                
+
                 setMainLoginError(error.message);
             } else {
-                
+
                 setMainLoginError("An unexpected error occurred.");
             }
 
@@ -122,7 +124,7 @@ const AdminLogin = () => {
         e.preventDefault();
         setLoading(true);
         setMainLoginError("")
-        
+
 
         controller?.abort(); //calcelling previos pending request
 
@@ -131,12 +133,12 @@ const AdminLogin = () => {
 
         try {
             const { data } = await axios.post<LoginResponse>(
-                `${apiUrl}/api/accountant/accountantlogin`, 
+                `${apiUrl}/api/accountant/accountantlogin`,
                 accountantLoginData,
                 {
-                    withCredentials: true, 
+                    withCredentials: true,
                     headers: {
-                        
+
                         "Content-Type": "application/json",
                     },
                     signal: newController.signal,
@@ -151,13 +153,13 @@ const AdminLogin = () => {
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                
+
                 setMainLoginError(error.response?.data?.message || "Something went wrong!");
             } else if (error instanceof Error) {
-                
+
                 setMainLoginError(error.message);
             } else {
-                
+
                 setMainLoginError("An unexpected error occurred.");
             }
 
@@ -169,11 +171,11 @@ const AdminLogin = () => {
 
     }
 
-   
+
 
     useEffect(() => {
         return () => {
-            controller?.abort(); 
+            controller?.abort();
         };
     }, [controller]);
 
@@ -183,8 +185,8 @@ const AdminLogin = () => {
                 <Link to={'/'}>
                     <Button sx={{
                         marginBottom: '20px',
-                        position: 'absolute',  
-                        top: '20px',           
+                        position: 'absolute',
+                        top: '20px',
                         right: '20px',
                         background: "#F6F5FA",
                         height: "40px",
@@ -230,17 +232,17 @@ const AdminLogin = () => {
                                             padding: "0px 0",
                                             width: "100%",
                                             "& .MuiOutlinedInput-root fieldset": {
-                                                borderWidth: "1px", 
-                                                borderStyle: "solid", 
-                                                borderColor: "#E2E8F0 !important" 
+                                                borderWidth: "1px",
+                                                borderStyle: "solid",
+                                                borderColor: "#E2E8F0 !important"
                                             },
                                             "& .MuiOutlinedInput-root:hover fieldset": {
-                                                borderColor: "#E2E8F0 !important", 
+                                                borderColor: "#E2E8F0 !important",
                                             },
                                             "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                                borderWidth: "1px", 
+                                                borderWidth: "1px",
                                                 borderStyle: "solid",
-                                                borderColor: "#E2E8F0 !important", 
+                                                borderColor: "#E2E8F0 !important",
                                             },
                                             "& .MuiInputBase-input": {
                                                 height: "20px",
@@ -249,9 +251,9 @@ const AdminLogin = () => {
                                                 padding: "15px 5px"
                                             },
                                             "& .MuiInputBase-input::placeholder": {
-                                                color: "#94A3B8", 
-                                                opacity: 1,   
-                                                fontSize: "16px" 
+                                                color: "#94A3B8",
+                                                opacity: 1,
+                                                fontSize: "16px"
                                             }
                                         }}
                                     />
@@ -266,7 +268,8 @@ const AdminLogin = () => {
                                 {/* <span className='text-red-500'>*</span> */}
                                 <div className="relative">
                                     <TextField
-                                        type='password'
+                                        type={showPassword ? 'text' : 'password'}
+                                        autoComplete="current-password"
                                         value={isAdmin ? adminLoginData.password : accountantLoginData.password}
                                         onChange={(e) => isAdmin ? setAdminLoginData((prev: LoginCredentials) => ({ ...prev, password: e.target.value })) : setAccountantLoginData((prev: LoginCredentials) => ({ ...prev, password: e.target.value }))}
                                         placeholder='Password'
@@ -275,17 +278,17 @@ const AdminLogin = () => {
                                             padding: "0px 0",
                                             width: "100%",
                                             "& .MuiOutlinedInput-root fieldset": {
-                                                borderWidth: "1px", 
-                                                borderStyle: "solid", 
-                                                borderColor: "#E2E8F0 !important" 
+                                                borderWidth: "1px",
+                                                borderStyle: "solid",
+                                                borderColor: "#E2E8F0 !important"
                                             },
                                             "& .MuiOutlinedInput-root:hover fieldset": {
-                                                borderColor: "#E2E8F0 !important", 
+                                                borderColor: "#E2E8F0 !important",
                                             },
                                             "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                                borderWidth: "1px", 
+                                                borderWidth: "1px",
                                                 borderStyle: "solid",
-                                                borderColor: "#E2E8F0 !important", 
+                                                borderColor: "#E2E8F0 !important",
                                             },
                                             "& .MuiInputBase-input": {
                                                 height: "20px",
@@ -294,14 +297,30 @@ const AdminLogin = () => {
                                                 padding: "15px 5px"
                                             },
                                             "& .MuiInputBase-input::placeholder": {
-                                                color: "#94A3B8", 
-                                                opacity: 1,   
-                                                fontSize: "16px" 
+                                                color: "#94A3B8",
+                                                opacity: 1,
+                                                fontSize: "16px"
                                             }
                                         }}
                                     />
-                                    <i className="fas fa-eye absolute right-3 top-3 text-gray-400">
-                                    </i>
+                                    {/* <i className="fas fa-eye absolute right-3 top-3 text-xl cursor-pointer" 
+                                    onClick={() => setShowPassword(!showPassword)}></i> Step 2: Add an icon to toggle visibility */}
+                                    <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            right: '10px',
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </Box>
                                     {/* {mainLoginError && <p className={`${style.errorMessage}`}><span>*</span>Enter password</p>} */}
                                 </div>
                             </div>
@@ -329,8 +348,8 @@ const AdminLogin = () => {
                                     "&:disabled": { backgroundColor: "#0ebf36", color: "white" },
                                 }}
                                 disabled={loading}
-                                > {loading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Sign in"}
-                                </Button>
+                            > {loading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Sign in"}
+                            </Button>
                         </form>
                     </div>
                 </div>

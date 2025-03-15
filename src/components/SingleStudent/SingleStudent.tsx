@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createdResponse, CustomAxiosRequestConfig, StudentDetailnew } from '../../Types/types'
 import style from './SingleStudent.module.css'
 import { SchoolContext } from '../../Context/SchoolContextProvider';
@@ -112,11 +112,6 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                 "adminssionAmt", "firstTermAmt", "secondTermAmt", "annualFee"
             ];
 
-            
-            
-            
-            
-
             const busFirstTermKeys = ["busFirstTermPaidAmt", "busFirstTermAmt"];
             const busSecondTermKeys = ["busSecondTermPaidAmt", "busSecondTermAmt"];
 
@@ -128,7 +123,6 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             let recalculateBusFirstTermDues = false;
             let recalculateBusSecondTermDues = false;
 
-            
             
             let checkRecalculateDues = 1;
             let checkRecalculateBusFirstTermDues = 1;
@@ -506,6 +500,10 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
         studentNameColor = `${style.warning}`;
     }
 
+    useEffect(()=>{
+        console.log("editStudent",editStudent)
+    }, [editStudent])
+
     return (
         <>
             <tr className={`${style.tbody_row}`}>
@@ -515,9 +513,15 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                     {!adminPage ? (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
 
                         if (!hiddenStudentDetails.includes(ele as string)) {
+
+                            let bgColor = "";
+                            if (ele === "firstTermPaidAmt") bgColor = firstTermPaidAmount;
+                            if (ele === "secondTermPaidAmt") bgColor = secondTermPaidAmount;
+                            if (ele === "studentName") bgColor = studentNameColor;
+                            if (ele === "dues") bgColor = totalDueColor;
     
                             return (
-                                <td key={ele} className={`${style.tbody_cell}`}>
+                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""}`}>
                                     {rowUpdating ?
     
                                         <EditInput
