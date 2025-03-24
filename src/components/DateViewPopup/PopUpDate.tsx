@@ -78,7 +78,7 @@ const PopUpDate: React.FC<PopUpDateProp> = ({ dateData, isDataSet, loading, chan
 
 
     useEffect(() => {
-        setIsChangesListAvailable(false)
+        // setIsChangesListAvailable(false)
 
         let isAvailable = ChangedStudent.some(item => Object.keys(item.fieldsModified).length)
         if (isAvailable) {

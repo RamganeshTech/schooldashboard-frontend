@@ -69,9 +69,9 @@ const AddDetail:React.FC = () => {
   }, [])
 
 
-  useEffect(()=>{
-    console.log(student)
-}, [student])
+//   useEffect(()=>{
+//     console.log(student)
+// }, [student])
 
   if(loading){
     return <MainLoading />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { SchoolContext } from '../../Context/SchoolContextProvider';
 import { useContext, useEffect, useState } from 'react';
 
@@ -16,6 +16,8 @@ import EventIcon from '@mui/icons-material/Event';
 
 import axiosInstance from '../../Api/apiClient';
 import { CustomAxiosRequestConfig } from '../../Types/types';
+
+import companyLogo from '../../assets/logo/School Module_ Jai Hind Public School.png'
 
 const Navbar:React.FC = () => {
 
@@ -175,6 +177,12 @@ const Navbar:React.FC = () => {
       <div className={`${style.innerDiv}`}>
 
         <h1 className={`${style.navbarheading} text-4xl font-medium`}>{adminPage ? "Admin panel" : "Accountant Panel"}</h1>
+
+        <section className='w-[7%] h-[100%]'>
+          <Link to={adminPage ? '/admin' : "/accountant"}>
+          <img src={companyLogo} alt="" className='h-[100%] w-[100%]'/>
+          </Link>
+        </section>
 
         {adminPage ? (
           <div className={`${style.btnContainer}`}>

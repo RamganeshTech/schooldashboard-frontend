@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { createdResponse, CustomAxiosRequestConfig, StudentDetailnew } from '../../Types/types'
 import style from './SingleStudent.module.css'
 import { SchoolContext } from '../../Context/SchoolContextProvider';
@@ -413,6 +413,8 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
         }
     }
 
+        //  FOR COLOR ADMINSION AMOUT ALSO
+    // let adminssionPaidAmount = ""
     let firstTermPaidAmount = "";
     let secondTermPaidAmount = ""
     let totalDueColor = "";
@@ -424,6 +426,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
     let remainingSecondTermAmt: number | undefined;
     let remainingConcession: number | undefined = (concession ?? 0)
 
+// REMOVE THIS IF CONDITION FOR MAKING THE COLOR INDICATION FOR ADMNSION AMOUNT TOO
     if (adminssionPaidAmt !== null && concession !== null) {
         let admissionlevelCalculation: number = adminssionAmt ? adminssionAmt - (adminssionPaidAmt ?? 0) : 0;
        let remainingAdmissionAmount: number = concession ? admissionlevelCalculation - concession : admissionlevelCalculation
@@ -436,6 +439,21 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             remainingConcession = concession != null ? Math.max(0, concession - difference) : 0; 
 
         }
+
+        //  FOR COLOR ADMINSION AMOUT ALSO
+        // if (adminssionPaidAmt === 0 || adminssionPaidAmt === null) {
+        //     if (remainingConcession === 0 && remainingAdmissionAmount) {
+        //         adminssionPaidAmount = `${style.danger}`; 
+        //     }
+        // }
+        // else if (remainingAdmissionAmount === 0) {
+        //     adminssionPaidAmount = ''; 
+        // }
+        // else {
+    
+        //     adminssionPaidAmount = `${style.warning}`; 
+        // }
+
     }
 
 
@@ -492,17 +510,19 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
         secondTermPaidAmount = `${style.warning}`; 
     }
 
+    //  FOR COLOR ADMINSION AMOUT ALSO
+    // if (firstTermPaidAmount === `${style.danger}` || secondTermPaidAmount === `${style.danger}` || adminssionPaidAmount === `${style.danger}`) {
+
     if (firstTermPaidAmount === `${style.danger}` || secondTermPaidAmount === `${style.danger}`) {
         totalDueColor = `${style.danger}`;
         studentNameColor = `${style.danger}`;
+    //  FOR COLOR ADMINSION AMOUT ALSO
+    // } else if (firstTermPaidAmount === `${style.warning}` || secondTermPaidAmount === `${style.warning}` || adminssionPaidAmount === `${style.warning}`) {
     } else if (firstTermPaidAmount === `${style.warning}` || secondTermPaidAmount === `${style.warning}`) {
         totalDueColor = `${style.warning}`;
         studentNameColor = `${style.warning}`;
     }
 
-    useEffect(()=>{
-        console.log("editStudent",editStudent)
-    }, [editStudent])
 
     return (
         <>
@@ -519,7 +539,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                             if (ele === "secondTermPaidAmt") bgColor = secondTermPaidAmount;
                             if (ele === "studentName") bgColor = studentNameColor;
                             if (ele === "dues") bgColor = totalDueColor;
-    
+                            // if(ele === "adminssionPaidAmt") bgColor = adminssionPaidAmount
                             return (
                                 <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""}`}>
                                     {rowUpdating ?
@@ -555,6 +575,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                             if (ele === "secondTermPaidAmt") bgColor = secondTermPaidAmount;
                             if (ele === "studentName") bgColor = studentNameColor;
                             if (ele === "dues") bgColor = totalDueColor;
+                            // if(ele === "adminssionPaidAmt") bgColor = adminssionPaidAmount
     
     
                             
