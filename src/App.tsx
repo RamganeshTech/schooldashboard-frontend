@@ -6,6 +6,7 @@ import React, { Component, Suspense } from 'react';
 
 import AdminLogin from './Pages/Admin/AdminLogin/AdminLogin';
 import MainLoading from './components/MainLoading/MainLoading';
+import SingleStudentProfile from './Pages/Accountant/StudentProfile/SingleStudentProfile';
 
 const AccountantPermission = React.lazy(() => import('./Pages/Admin/Reports/AccountantPermission/AccountantPermission'));
 const Accountant = React.lazy(() => import('./Pages/Accountant/Accountant'));
@@ -70,6 +71,7 @@ function App() {
 
               <Route path='/accountant' element={<ProtectedRoute userType="accountant" element={<Accountant />} />}>
                 <Route index element={<ProtectedRoute userType="accountant" element={<AddDetail />} />} />
+                <Route path="singlestudentprofile/:id" element={<ProtectedRoute userType="accountant" element={<SingleStudentProfile />} />} />
                 <Route path="reports" element={<ProtectedRoute userType="accountant" element={<Reports />} />} />
               </Route>
 

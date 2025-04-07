@@ -7,6 +7,7 @@ import EditInput from '../../ResuableComponents/EditInput/EditInput';
 import { calculateBusFirstTermDues, calculateBusSecondTermDues, calculateDues } from '../../Utils/studentUtils';
 import axiosInstance from '../../Api/apiClient';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 interface SingleStudentDetail {
@@ -27,8 +28,17 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
         setFormError, setisErrorDisplying } = context
 
     const [rowUpdating, setRowUpdating] = useState<boolean>(false)
+    const [allowNavigationStudentProfile, setAllowNavigationStudentProfile] = useState<boolean>(true)
 
     const [updateLoading, setUpdateLoading] = useState<boolean>(false);
+
+    let navigate = useNavigate()
+
+    const handleStudentProfileNavigate = ()=>{
+        if(!rowUpdating && allowNavigationStudentProfile){
+            navigate(`/${adminPage ? `admin` : "accountant"}/singlestudentprofile/${student._id}`)
+        }
+    }   
 
     let hiddenStudentDetails = [
         "admissionBillNo",
@@ -78,7 +88,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
     }
 
     const handleRequest = () => {
-
+        setAllowNavigationStudentProfile(false)
         setRowUpdating(true)
         setIsEditing(true)
 
@@ -268,13 +278,13 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                     {
                         userType:"accountant"
                     } as CustomAxiosRequestConfig<{}>);
-        
                 }
             }
-
+            
             setRowUpdating(false);
             setIsEditing(false);
             setIsStudentListUpdated(true)
+            setAllowNavigationStudentProfile(true)
         }
         catch (error) {
             if (axios.isAxiosError(error)) {
@@ -393,6 +403,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             setRowUpdating(false);
             setIsEditing(false);
             setIsStudentListUpdated(true)
+        setAllowNavigationStudentProfile(true)
         }
         catch (error) {
             if (axios.isAxiosError(error)) {
@@ -526,8 +537,11 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
 
     return (
         <>
+                {/* <Link to={`../singlestudentprofile/${student._id}`}> */}
             <tr className={`${style.tbody_row}`}>
-                <td className={`${style.tbody_cell}`}>{singleStudentIndex + 1}</td>
+                
+
+                <td className={`${style.tbody_cell}`} onClick={handleStudentProfileNavigate}>{singleStudentIndex + 1}</td>
             
                     
                     {!adminPage ? (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
@@ -541,7 +555,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                             if (ele === "dues") bgColor = totalDueColor;
                             // if(ele === "adminssionPaidAmt") bgColor = adminssionPaidAmount
                             return (
-                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""}`}>
+                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""} ${allowNavigationStudentProfile ? 'cursor-pointer' : "none"}`} onClick={handleStudentProfileNavigate}>
                                     {rowUpdating ?
     
                                         <EditInput
@@ -580,7 +594,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
     
                             
                             return (
-                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""}`}>
+                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""}`} onClick={handleStudentProfileNavigate}>
                                     {rowUpdating ?
     
                                         <EditInput
@@ -658,8 +672,8 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                         </Button>
                     </td>
                     
-                
             </tr>
+                    {/* </Link> */}
         </>
     )
 }

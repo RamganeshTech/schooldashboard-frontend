@@ -1,0 +1,142 @@
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.heading {
+    text-align: center;
+    font-size: clamp(14px, 4vw ,28px);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    /* color: #343a40; */
+    color: var( --icons-outline-color);
+    /* border-bottom: 2px solid #2c3e50; */
+    border-bottom: 2px solid var( --icons-outline-color);
+    padding-bottom: 0.5rem;
+}
+
+.profileSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.subSection {
+    background-color: #f1f3f5;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.subHeading {
+    font-size: clamp(16px, 4vw, 22px);
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+
+
+.infoRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    /* justify-content: space-between; */
+    margin: 0.5rem 0;
+    flex-wrap: wrap;
+}
+
+.label {
+    min-width: 130px; 
+    font-weight: 600;
+    color: #343a40;
+    font-size: clamp(14px, 3vw, 20px);
+    flex-shrink: 0;
+}
+
+.value {
+    color: #212529;
+    word-break: break-word; 
+    /* text-wrap: wrap; */
+    font-size: clamp(12px, 3vw, 18px);
+
+}
+
+.studentNameRow{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between !important;
+    width: 100%;
+    /* border: 2px solid red; */
+}
+
+.studentName {
+    min-width: 130px; 
+    font-weight: 600;
+    color: #495057;
+    font-size: 24px;
+}
+
+.studentNameRow .value {
+    font-size: clamp(12px, 3vw, 24px);
+}
+
+
+.details_Row{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #0a0a0a2e;
+}
+
+
+
+/* .heading {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid #2c3e50;
+    padding-bottom: 0.5rem;
+  } */
+
+  
+.backButton {
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .backButton:hover {
+    background-color: #2980b9;
+  }
+
+  .details_Row {
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0;  }
+    to { opacity: 1;  }
+  }

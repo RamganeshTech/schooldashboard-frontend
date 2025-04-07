@@ -179,7 +179,7 @@ const Navbar:React.FC = () => {
         <h1 className={`${style.navbarheading} text-4xl font-medium`}>{adminPage ? "Admin panel" : "Accountant Panel"}</h1>
 
         <section className='w-[7%] h-[100%]'>
-          <Link to={adminPage ? '/admin' : "/accountant"}>
+          <Link to={adminPage ? '/admin' : "/accountant"} className='outline-none'>
           <img src={companyLogo} alt="" className='h-[100%] w-[100%]'/>
           </Link>
         </section>
