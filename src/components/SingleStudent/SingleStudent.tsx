@@ -7,7 +7,7 @@ import EditInput from '../../ResuableComponents/EditInput/EditInput';
 import { calculateBusFirstTermDues, calculateBusSecondTermDues, calculateDues } from '../../Utils/studentUtils';
 import axiosInstance from '../../Api/apiClient';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 interface SingleStudentDetail {
