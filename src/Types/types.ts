@@ -1,10 +1,41 @@
 import { AxiosRequestConfig } from "axios";
+import { mandatoryDetails } from "../Constants/constants";
 
+
+export interface MandatoryDetails {
+  gender: (String | null);
+  dob: (String | null);
+  educationNumber: (String | null);
+  motherName: (String | null);
+  fatherName: (String | null);
+  guardianName: (String | null);
+  aadhaarNumber: (String | null);
+  aadhaarName: (String | null);
+  address: (String | null);
+  pincode: (String | null);
+  mobileNumber: (String | null);
+  alternateMobile: (String | null);
+  email: (String | null);
+  motherTongue: (String | null);
+  socialCategory: (String | null);
+  minorityGroup: (String | null);
+  bpl: (String | null);
+  aay: (String | null);
+  ews: (String | null);
+  cwsn: (String | null);
+  impairments: (String | null);
+  indian: (String | null);
+  outOfSchool: (String | null);
+  mainstreamedDate: (String | null);
+  disabilityCert: (String | null);
+  disabilityPercent: (String | null);
+  bloodGroup: (String | null);
+}
 export interface StudentDetailnew {
   _id?: string | number | null
 
   newOld: (string | null);
-  studentClass:(string | null)
+  studentClass: (string | null)
   section: (string | null);
   studentName: (string | null);
 
@@ -41,14 +72,18 @@ export interface StudentDetailnew {
   busPoint: string | null;
   whatsappNumber: (string | null);
 
+  // mandatroyDetails
+  mandatory: MandatoryDetails
 }
+
+export type EditStudent = Omit<StudentDetailnew, "mandatory">;
 
 export interface ErrorStudent {
 
   _id?: string | number | null
 
   newOld?: string;
-  studentClass?:string;
+  studentClass?: string;
   section?: string;
   studentName?: (string | null);
 
@@ -112,14 +147,14 @@ export interface SchoolContextType {
   studentList: StudentDetailnew[];
   setStudentList: React.Dispatch<React.SetStateAction<StudentDetailnew[]>>;
 
-  handleError: (student: StudentDetailnew) => ErrorStudent;
+  handleError: (student:  Partial<StudentDetailnew>) => ErrorStudent;
 
   handleInputChange: <T>(
     key: keyof T,
     value: string | boolean,
     setState: React.Dispatch<React.SetStateAction<T>>,
     index?: number,
-    
+
   ) => void;
 
   apiUrl: string;
@@ -130,8 +165,8 @@ export interface SchoolContextType {
   isStudentListUpdated: boolean;
   setIsStudentListUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 
-  editStudent: StudentDetailnew;
-  setEditStudent: React.Dispatch<React.SetStateAction<StudentDetailnew>>;
+  editStudent: EditStudent;
+  setEditStudent: React.Dispatch<React.SetStateAction<EditStudent>>;
 
   adminPage: boolean;
   setAdminPage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -147,7 +182,7 @@ export interface SchoolContextType {
 
   deletedLoginError: string,
   deletedLoginsLoading: boolean
-  setDeletedLoginLoading:React.Dispatch<React.SetStateAction<boolean>>;
+  setDeletedLoginLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setDeletedLoginError: React.Dispatch<React.SetStateAction<string>>;
 
   getDeletedLoginList: () => void,
@@ -165,10 +200,10 @@ export interface SchoolContextType {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 
   currentEditingId: (number | string | null | undefined);
-  setCurrentEditingId: React.Dispatch<React.SetStateAction<number | null |string| undefined>>;
+  setCurrentEditingId: React.Dispatch<React.SetStateAction<number | null | string | undefined>>;
 
 
-  accountantLoading:boolean;
+  accountantLoading: boolean;
 
   handleAccountantSubmit: <T extends any[], S extends StudentDetailnew>(
     e: React.FormEvent,
@@ -191,7 +226,7 @@ export interface NotificationDetail {
 }
 
 export interface CustomAxiosRequestConfig<T> extends AxiosRequestConfig<T> {
-  userType?: string; 
+  userType?: string;
 }
 
 export interface createdResponse {

@@ -90,7 +90,7 @@ const AddDetail:React.FC = () => {
             </thead>
             <tbody className=''>
               {studentList && studentList.length > 0 && studentList.map((student: StudentDetailnew, index) => {
-                
+                                
                 return (
                   <SingleStudent key={student._id} student={student} singleStudentIndex={index} />
                 )

@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { createdResponse, CustomAxiosRequestConfig, DeltedLogins, ErrorStudent, LoginCredentials, NotificationDetail, SchoolContextType, StudentDetailnew } from "../Types/types";
+import { createdResponse, CustomAxiosRequestConfig, DeltedLogins, EditStudent, ErrorStudent, LoginCredentials, NotificationDetail, SchoolContextType, StudentDetailnew } from "../Types/types";
 import { dateConvertor } from '../Utils/dateConverter';
 import { calculateBusFirstTermDues, calculateBusSecondTermDues, calculateDues, generateAdmissionBillNumber, generateFirstTermBillNumber, generateSecondTermBillNumber } from '../Utils/studentUtils';
 import axios from 'axios';
@@ -48,9 +48,39 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     busPoint: null,
     whatsappNumber: null,
+
+    mandatory:{
+        gender: null,
+        dob: null,
+        educationNumber: null,
+        motherName: null,
+        fatherName: null,
+        guardianName: null,
+        aadhaarNumber: null,
+        aadhaarName: null,
+        address: null,
+        pincode: null,
+        mobileNumber: null,
+        alternateMobile: null,
+        email: null,
+        motherTongue: null,
+        socialCategory: null,
+        minorityGroup: null,
+        bpl: null,
+        aay: null,
+        ews: null,
+        cwsn: null,
+        impairments: null,
+        indian: null,
+        outOfSchool: null,
+        mainstreamedDate: null,
+        disabilityCert: null,
+        disabilityPercent: null,
+        bloodGroup: null,
+    }
   })
 
-  const [editStudent, setEditStudent] = useState<StudentDetailnew>({
+  const [editStudent, setEditStudent] = useState<EditStudent>({
     newOld: null,
     studentClass:null,
     studentName: null,
@@ -170,7 +200,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }
 
-  let handleError = (student: StudentDetailnew) => {
+  let handleError = (student: Partial<StudentDetailnew>): ErrorStudent => {
 
     let error: ErrorStudent = {}
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { createdResponse, CustomAxiosRequestConfig, StudentDetailnew } from '../../Types/types'
+import { createdResponse, CustomAxiosRequestConfig, EditStudent, StudentDetailnew } from '../../Types/types'
 import style from './SingleStudent.module.css'
 import { SchoolContext } from '../../Context/SchoolContextProvider';
 import { Button, CircularProgress } from '@mui/material';
@@ -139,17 +139,25 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             let checkRecalculateBusSecondTermDues = 1;
 
             for (const key in editStudent) {
-                if (editStudent[key as keyof StudentDetailnew] !== student[key as keyof StudentDetailnew]) {
+                if (editStudent[key as keyof EditStudent] !== student[key as keyof StudentDetailnew]) {
                     
                     const currentValue = student[key as keyof StudentDetailnew];
                     if (currentValue !== null && currentValue !== "" && currentValue !== 0) {
-                        let newValue = editStudent[key as keyof StudentDetailnew];
+                        let newValue = editStudent[key as keyof EditStudent];
 
                         if (typeof newValue === "string") {
                             newValue = newValue.trim();
                         }
 
-                        fieldsRequiringApproval[key as keyof StudentDetailnew] = newValue; 
+                        if (
+                            typeof newValue === "string" ||
+                            typeof newValue === "number" ||
+                            newValue === null
+                          ) {
+                            fieldsRequiringApproval[key as keyof StudentDetailnew] = newValue;
+                          }
+                          
+                        // fieldsRequiringApproval[key as keyof StudentDetailnew] = newValue; 
 
                         if (feeKeys.includes(key)) {
                             checkRecalculateDues = 0
@@ -161,7 +169,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                             checkRecalculateBusSecondTermDues = 0
                         }
                     } else {
-                        let newValue = String(editStudent[key as keyof StudentDetailnew]);
+                        let newValue = String(editStudent[key as keyof EditStudent]);
 
                         if (typeof newValue === "string") {
                             newValue = newValue.trim();
@@ -176,38 +184,99 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                 }
             }
 
+            // if (recalculateDues) {
+            //     const calculatedDues = calculateDues(editStudent);
+            //     Object.keys(calculatedDues).forEach((key) => {
+            //         if (!checkRecalculateDues) {
+            //             fieldsRequiringApproval[key as keyof StudentDetailnew] = calculatedDues[key as keyof StudentDetailnew];
+            //         } else {
+            //             updatedFields[key as keyof StudentDetailnew] = calculatedDues[key as keyof StudentDetailnew];
+            //         }
+            //     });
+            // }
+
             if (recalculateDues) {
                 const calculatedDues = calculateDues(editStudent);
                 Object.keys(calculatedDues).forEach((key) => {
-                    if (!checkRecalculateDues) {
-                        fieldsRequiringApproval[key as keyof StudentDetailnew] = calculatedDues[key as keyof StudentDetailnew];
-                    } else {
-                        updatedFields[key as keyof StudentDetailnew] = calculatedDues[key as keyof StudentDetailnew];
-                    }
+                  const value = calculatedDues[key as keyof StudentDetailnew];
+              
+                  // Skip if the key is "mandatory" or if the value is not a string or number (or null/undefined)
+                  if (key === "mandatory" || (typeof value === "object" && value !== null)) {
+                    return;
+                  }
+              
+                  if (!checkRecalculateDues) {
+                    fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
+                  } else {
+                    updatedFields[key as keyof StudentDetailnew] = value;
+                  }
                 });
-            }
+              }
+              
+              
+              
+
+            // if (recalculateBusFirstTermDues) {
+            //     const calculatedBusFirstTermDues = calculateBusFirstTermDues(editStudent);
+            //     Object.keys(calculatedBusFirstTermDues).forEach((key) => {
+            //         if (!checkRecalculateBusFirstTermDues) {
+            //             fieldsRequiringApproval[key as keyof StudentDetailnew] = calculatedBusFirstTermDues[key as keyof StudentDetailnew];
+            //         } else {
+            //             updatedFields[key as keyof StudentDetailnew] = calculatedBusFirstTermDues[key as keyof StudentDetailnew];
+            //         }
+            //     });
+            // }
 
             if (recalculateBusFirstTermDues) {
                 const calculatedBusFirstTermDues = calculateBusFirstTermDues(editStudent);
+              
                 Object.keys(calculatedBusFirstTermDues).forEach((key) => {
-                    if (!checkRecalculateBusFirstTermDues) {
-                        fieldsRequiringApproval[key as keyof StudentDetailnew] = calculatedBusFirstTermDues[key as keyof StudentDetailnew];
-                    } else {
-                        updatedFields[key as keyof StudentDetailnew] = calculatedBusFirstTermDues[key as keyof StudentDetailnew];
-                    }
+                  const value = calculatedBusFirstTermDues[key as keyof StudentDetailnew];
+              
+                  // Skip if the key is "mandatory" or if the value is an object (and not null)
+                  if (key === "mandatory" || (typeof value === "object" && value !== null)) {
+                    return;
+                  }
+              
+                  if (!checkRecalculateBusFirstTermDues) {
+                    fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
+                  } else {
+                    updatedFields[key as keyof StudentDetailnew] = value;
+                  }
                 });
-            }
+              }
+              
+
+            // if (recalculateBusSecondTermDues) {
+            //     const calculatedBusSecondTermDues = calculateBusSecondTermDues(editStudent);
+            //     Object.keys(calculatedBusSecondTermDues).forEach((key) => {
+            //         if (!checkRecalculateBusSecondTermDues) {
+            //             fieldsRequiringApproval[key as keyof StudentDetailnew] = calculatedBusSecondTermDues[key as keyof StudentDetailnew];
+            //         } else {
+            //             updatedFields[key as keyof StudentDetailnew] = calculatedBusSecondTermDues[key as keyof StudentDetailnew];
+            //         }
+            //     });
+            // }
 
             if (recalculateBusSecondTermDues) {
                 const calculatedBusSecondTermDues = calculateBusSecondTermDues(editStudent);
+              
                 Object.keys(calculatedBusSecondTermDues).forEach((key) => {
-                    if (!checkRecalculateBusSecondTermDues) {
-                        fieldsRequiringApproval[key as keyof StudentDetailnew] = calculatedBusSecondTermDues[key as keyof StudentDetailnew];
-                    } else {
-                        updatedFields[key as keyof StudentDetailnew] = calculatedBusSecondTermDues[key as keyof StudentDetailnew];
-                    }
+                  const value = calculatedBusSecondTermDues[key as keyof StudentDetailnew];
+              
+                  // Skip if the key is "mandatory" or if the value is an object (and not null)
+                  if (key === "mandatory" || (typeof value === "object" && value !== null)) {
+                    return;
+                  }
+              
+                  if (!checkRecalculateBusSecondTermDues) {
+                    fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
+                  } else {
+                    updatedFields[key as keyof StudentDetailnew] = value;
+                  }
                 });
-            }
+              }
+              
 
 
             // API CALLING FOR ADMIN PERMISSION
@@ -374,13 +443,25 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
 
 
                 let onlyModifiedKeys = {};
+                // for (const key in updatedStudent) {
+                //     if (updatedStudent[key as keyof StudentDetailnew] !== student[key as keyof StudentDetailnew]) {
+    
+                //         onlyModifiedKeys = {...onlyModifiedKeys, [key]:updatedStudent[key as keyof StudentDetailnew]}
+    
+                //     }
+                // }
+
                 for (const key in updatedStudent) {
-                    if (updatedStudent[key as keyof StudentDetailnew] !== student[key as keyof StudentDetailnew]) {
-    
-                        onlyModifiedKeys = {...onlyModifiedKeys, [key]:updatedStudent[key as keyof StudentDetailnew]}
-    
+                    const typedKey = key as keyof typeof editStudent;
+                  
+                    if (updatedStudent[typedKey] !== student[typedKey]) {
+                      onlyModifiedKeys = {
+                        ...onlyModifiedKeys,
+                        [typedKey]: updatedStudent[typedKey],
+                      };
                     }
-                }
+                  }
+                  
 
                 const today = new Date();
                 const modifiedDate = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`; 
@@ -545,8 +626,8 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             
                     
                     {!adminPage ? (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
-
-                        if (!hiddenStudentDetails.includes(ele as string)) {
+                        // FOR ACCOUNTANT
+                        if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory") {
 
                             let bgColor = "";
                             if (ele === "firstTermPaidAmt") bgColor = firstTermPaidAmount;
@@ -579,8 +660,9 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                     }
                     )
                     :
+                    // FOR ADMIN 
                         (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
-                            if (ele === "_id" || ele === "createdAt" as string || ele === "updatedAt" as string || ele === "__v" as string) {
+                            if (ele === "_id" || ele === "createdAt" as string || ele === "updatedAt" as string || ele === "__v" as string || ele === "mandatory") {
                                 return;
                             }
     
@@ -594,7 +676,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
     
                             
                             return (
-                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""}`} onClick={handleStudentProfileNavigate}>
+                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""} ${allowNavigationStudentProfile ? 'cursor-pointer' : "none"}`} onClick={handleStudentProfileNavigate}>
                                     {rowUpdating ?
     
                                         <EditInput

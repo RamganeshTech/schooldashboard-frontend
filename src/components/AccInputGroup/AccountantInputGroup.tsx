@@ -60,7 +60,7 @@ const AccountantInputGroup: React.FC<AccountantInputGroupProps> = ({ student, se
 
                 {(Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
 
-                    if (!hiddenStudentDetails.includes(ele as string)) {
+                    if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory") {
 
                         const inputType = (ele: string) => {
                             if (dateList.includes(ele)) {
