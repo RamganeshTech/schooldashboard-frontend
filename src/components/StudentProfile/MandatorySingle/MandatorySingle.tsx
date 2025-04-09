@@ -1,5 +1,5 @@
 import { Button, CircularProgress, IconButton, TextField } from '@mui/material'
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react'
+import React, { ChangeEvent, useContext, useEffect, useRef, useState } from 'react'
 import style from '../SingleStudentProfile.module.css'
 import { createdResponse, CustomAxiosRequestConfig, MandatoryDetails, StudentDetailnew } from '../../../Types/types'
 import { ProfileItem } from '../../../Constants/constants'
@@ -20,7 +20,7 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
 
     if (!context) return <MainLoading />
 
-    let { adminPage , setStudentList} = context
+    let { adminPage, setStudentList } = context
 
     const [isEditing, setIsEditing] = useState<boolean>(false)
 
@@ -28,19 +28,20 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
 
     const [isMandatoryLoading, setIsMandatoryLoading] = useState<boolean>(false)
     const [inputFieldType, setInputFieldInputType] = useState<string>("text")
-   
 
-    useEffect(()=>{
-        setInputFieldInputType(()=>{
-            if(item.key === "dob"){
+    const sectionRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        setInputFieldInputType(() => {
+            if (item.key === "dob") {
                 return "date"
             }
             // console.log("item.key",item.key )
             if (item.key.toLowerCase().includes("number")) {
                 return "number";
-              }
+            }
 
-             return "text"
+            return "text"
         })
     }, [item.key])
 
@@ -48,7 +49,7 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
         setInputValue(e.target.value)
     }
 
-// console.log(adminPage ? "admin" :"acccountant")
+    // console.log(adminPage ? "admin" :"acccountant")
     const handleUpdate = async () => {
         setIsMandatoryLoading(true)
         try {
@@ -67,8 +68,11 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
             } as CustomAxiosRequestConfig<StudentDetailnew>
             )
 
-            if(data.ok){
-                setStudentList((p: StudentDetailnew[])=> p.map(item=> item._id === student._id ? student : item))
+            if (data.ok) {
+                setStudentList((p: StudentDetailnew[]) => p.map(item => item._id === student._id ? data.data : item))
+                setInputValue(null)
+                setIsEditing(false)
+
             }
             console.log(data.data)
         }
@@ -77,20 +81,36 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
             if (axios.isAxiosError(error)) {
                 // setisErrorDisplying(true)
                 // setFormError(error.response?.data?.message || "Something went wrong!");
-              } else if ((error as Error).name === 'AbortError') {
+            } else if ((error as Error).name === 'AbortError') {
                 console.log(error)
-              } else if (error instanceof Error) {
-               
+            } else if (error instanceof Error) {
+
                 console.log(error)
-              } else {
-            console.log(error)
-              }
+            } else {
+                console.log(error)
+            }
         }
         finally {
             setIsMandatoryLoading(false)
-            // setIsEditing(false)
         }
     }
+
+    const handleCancelUpdateProfile = () => {
+        setIsEditing(false)
+    }
+
+    useEffect(() => {
+
+        const handleCancel = (e: MouseEvent) => {
+            if (sectionRef.current && !sectionRef.current.contains(e.target as Node)) {
+                handleCancelUpdateProfile();
+            }
+        }
+
+        document.addEventListener('mousedown', handleCancel)
+
+        return () => document.removeEventListener('mousedown', handleCancel)
+    }, [handleCancelUpdateProfile])
 
     // console.log(inputFieldType)
 
@@ -104,8 +124,8 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
                         ? student?.studentName || "NA"
                         : student?.mandatory?.[item.key as keyof MandatoryDetails] ?? "NA"}</span>
                     {item.key !== "studentName" && <IconButton onClick={() => {
-            // console.log("item.key",item.key, inputFieldType )
-            setIsEditing(true)
+                        // console.log("item.key",item.key, inputFieldType )
+                        setIsEditing(true)
                     }}
                     >
                         <EditIcon />
@@ -115,7 +135,7 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
 
             {isEditing && (
                 <div className={style.modalBackdrop}>
-                    <div className={style.modalContent}>
+                    <div ref={sectionRef} className={style.modalContent}>
                         <h3>Edit {item.label}</h3>
                         <TextField
                             value={inputValue ?? ""}
@@ -126,8 +146,8 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
                             className={style.mandatoryinputfield}
                         />
                         <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                            <Button variant="contained" onClick={handleUpdate}>
-                                {isMandatoryLoading ? <CircularProgress size={20} thickness={5} sx={{ color: "#fafafa" }} /> : "Submit"}
+                            <Button variant="contained" onClick={handleUpdate} className='!w-[20%]'>
+                                {isMandatoryLoading ? <CircularProgress size={20} thickness={4} sx={{ color: "#fafafa" }} /> : "Submit"}
                             </Button>
                             <Button variant="outlined" onClick={() => setIsEditing(false)}>Cancel</Button>
                         </div>
