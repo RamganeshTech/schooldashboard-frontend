@@ -1,6 +1,4 @@
 import { AxiosRequestConfig } from "axios";
-import { mandatoryDetails } from "../Constants/constants";
-
 
 export interface MandatoryDetails {
   gender: (String | null);
@@ -31,6 +29,61 @@ export interface MandatoryDetails {
   disabilityPercent: (String | null);
   bloodGroup: (String | null);
 }
+
+
+export interface NonMandatoryDetails {
+  facilitiesProvided: string | null;
+  facilitiesForCWSN: string | null;
+  screenedForSLD: string | null;
+  sldType: string | null;
+  screenedForASD: string | null;
+  screenedForADHD: string | null;
+  isGiftedOrTalented: string | null;
+  participatedInCompetitions: string | null;
+  participatedInActivities: string | null;
+  canHandleDigitalDevices: string | null;
+  heightInCm: string | null; // or number if preferred
+  weightInKg: string | null; // or number
+  distanceToSchool: string | null;
+  parentEducationLevel: string | null;
+
+
+
+  // ENTROLLMENT DETAILS 
+
+  admissionNumber?: string | null;
+  admissionDate?: string | null; // Format: DD/MM/YYYY
+  rollNumber?: string | null;
+  mediumOfInstruction?: string | null;
+  languagesStudied?: string | null;
+  academicStream?: string | null;
+  subjectsStudied?: string | null;
+  statusInPreviousYear?: string | null;
+  gradeStudiedLastYear?: string | null;
+  enrolledUnder?: string | null;
+  previousResult?: string | null;
+  marksObtainedPercentage?: string | null;
+  daysAttendedLastYear?: string | null;
+}
+
+// export interface EnrollmentDetails {
+//   admissionNumber?: string | null;
+//   admissionDate?: string | null; // Format: DD/MM/YYYY
+//   rollNumber?: string | null;
+//   mediumOfInstruction?: string | null;
+//   languagesStudied?: string | null;
+//   academicStream?: string | null;
+//   subjectsStudied?: string | null;
+//   statusInPreviousYear?: string | null;
+//   gradeStudiedLastYear?: string | null;
+//   enrolledUnder?: string | null;
+//   previousResult?: string | null;
+//   marksObtainedPercentage?: string | null;
+//   daysAttendedLastYear?: string | null;
+// }
+
+
+
 export interface StudentDetailnew {
   _id?: string | number | null
 
@@ -74,6 +127,7 @@ export interface StudentDetailnew {
 
   // mandatroyDetails
   mandatory: MandatoryDetails
+  nonMandatory: NonMandatoryDetails
 }
 
 export type EditStudent = Omit<StudentDetailnew, "mandatory">;

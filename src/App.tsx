@@ -26,41 +26,41 @@ const Reports = React.lazy(()=> import('./Pages/Admin/Reports/Reports') )
 
 
 
-interface ErrorBoundaryProps {
-  children: React.ReactNode;
-}
-interface ErrorBoundaryState {
-  hasError: boolean;
-}
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-  }
+// interface ErrorBoundaryProps {
+//   children: React.ReactNode;
+// }
+// interface ErrorBoundaryState {
+//   hasError: boolean;
+// }
+// class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+//   constructor(props: ErrorBoundaryProps) {
+//     super(props);
+//     this.state = { hasError: false };
+//   }
 
-  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
-    console.log(error)
-    return { hasError: true };
-  }
+//   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+//     console.log(error)
+//     return { hasError: true };
+//   }
 
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
-    console.error("Error boundary caught an error:", error, info);
-  }
+//   componentDidCatch(error: Error, info: React.ErrorInfo) {
+//     console.error("Error boundary caught an error:", error, info);
+//   }
 
-  render() {
-    if (this.state.hasError) {
-      return <h1>Something went wrong from error boudary.</h1>;
-    }
-    return this.props.children;
-  }
-}
+//   render() {
+//     if (this.state.hasError) {
+//       return <h1>Something went wrong from error boudary.</h1>;
+//     }
+//     return this.props.children;
+//   }
+// }
 
 function App() {
 
   return (
     <>
       <Suspense fallback={<MainLoading />}>
-        <ErrorBoundary>
+        {/* <ErrorBoundary> */}
           <Router>
             <Routes >
               <Route index element={<LoginSelection />} />
@@ -74,7 +74,6 @@ function App() {
                 <Route path="singlestudentprofile/:id" element={<ProtectedRoute userType="accountant" element={<SingleStudentProfile />} />} />
                 <Route path="reports" element={<ProtectedRoute userType="accountant" element={<Reports />} />} />
               </Route>
-
 
               <Route path='/admin' element={<ProtectedRoute userType="admin" element={<AdminHome />} />} >
                 <Route index element={<ProtectedRoute userType="admin" element={<AdminStudent />} />} />
@@ -90,7 +89,7 @@ function App() {
 
             </Routes>
           </Router>
-        </ErrorBoundary>
+        {/* </ErrorBoundary> */}
       </Suspense >
     </>
   )

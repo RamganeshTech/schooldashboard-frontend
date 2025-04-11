@@ -6,11 +6,12 @@ import { SchoolContext } from '../../Context/SchoolContextProvider';
 import MainLoading from '../MainLoading/MainLoading';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
-import { mandatoryDetails } from '../../Constants/constants';
+import { mandatoryDetails, nonMandatoryDetails } from '../../Constants/constants';
 import { createdResponse, CustomAxiosRequestConfig, MandatoryDetails, StudentDetailnew } from '../../Types/types';
 import MandatorySingle from './MandatorySingle/MandatorySingle';
 import axiosInstance from '../../Api/apiClient';
 import axios from 'axios';
+import NonMandatorySingle from './NonMandatorySingle/NonMandatroySingle';
 
 const SingleStudentProfile = () => {
 
@@ -227,7 +228,10 @@ const SingleStudentProfile = () => {
         ) : (
           <div className={style.card}>
             <h2 className={style.heading}>Non-Mandatory Details</h2>
-            {/* You can add non-mandatory content here */}
+           
+            {SingleStudent && nonMandatoryDetails.map(item=>
+              <NonMandatorySingle key={item.key} item={item} student={SingleStudent} />
+            )}
             <button onClick={() => setShowExtraInfo(null)} className={style.backButton}>
               ← Back to Profile
             </button>

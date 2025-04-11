@@ -627,7 +627,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                     
                     {!adminPage ? (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
                         // FOR ACCOUNTANT
-                        if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory") {
+                        if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory" && ele!=="nonMandatory") {
 
                             let bgColor = "";
                             if (ele === "firstTermPaidAmt") bgColor = firstTermPaidAmount;
@@ -662,7 +662,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                     :
                     // FOR ADMIN 
                         (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
-                            if (ele === "_id" || ele === "createdAt" as string || ele === "updatedAt" as string || ele === "__v" as string || ele === "mandatory") {
+                            if (ele === "_id" || ele === "createdAt" as string || ele === "updatedAt" as string || ele === "__v" as string || ele === "mandatory" || ele==="nonMandatory") {
                                 return;
                             }
     

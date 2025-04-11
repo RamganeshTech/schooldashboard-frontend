@@ -136,7 +136,7 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
             {isEditing && (
                 <div className={style.modalBackdrop}>
                     <div ref={sectionRef} className={style.modalContent}>
-                        <h3>Edit {item.label}</h3>
+                        <h3 className='!mb-2'>Edit {item.label}</h3>
                         <TextField
                             value={inputValue ?? ""}
                             onChange={handleMandatoryInputChange}

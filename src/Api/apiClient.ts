@@ -24,7 +24,7 @@ axiosInstance.interceptors.response.use(
       const userType = originalRequest.userType || "admin"; // Default to "admin" if not specified
       const newAccessToken = await refreshAccessToken({ userType }); // Pass the userType
 
-      console.log(" axiosinterceptors new accessToken", newAccessToken)
+      // console.log(" axiosinterceptors new accessToken", newAccessToken)
       if (newAccessToken) {
         // Set the new access token in the request headers
         // originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;

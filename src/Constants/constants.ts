@@ -1,4 +1,4 @@
-import { MandatoryDetails, StudentDetailnew } from "../Types/types";
+import { MandatoryDetails, NonMandatoryDetails, StudentDetailnew } from "../Types/types";
 
 
 
@@ -6,6 +6,11 @@ export type ProfileItem = {
   label: string;
   key: keyof MandatoryDetails | "studentName";
 };
+
+export type ProfileNonMandatory = {
+  label: string;
+  key: keyof NonMandatoryDetails;
+}
 
 export const mandatoryDetails:ProfileItem[] = [
     { label: "Student's Name (as per School Record)", key: "studentName", },
@@ -39,4 +44,36 @@ export const mandatoryDetails:ProfileItem[] = [
   ];
   
 
+  export const nonMandatoryDetails: ProfileNonMandatory[] = [
+    { label: "Whether Facilities provided to the Student (for the year of filling data)", key: "facilitiesProvided" },
+    { label: "Facilities provided to Student in case of CWSN (for the year of filling data)", key: "facilitiesForCWSN" },
+    { label: "Whether Student has been screened for Specific Learning Disability (SLD)", key: "screenedForSLD" },
+    { label: "SLD Type", key: "sldType" },
+    { label: "Whether Student has been screened for Autism Spectrum Disorder (ASD)?", key: "screenedForASD" },
+    { label: "Whether Student has been screened for Attention Deficit Hyperactive Disorder (ADHD)?", key: "screenedForADHD" },
+    { label: "Has the Student been identified as a Gifted / Talented", key: "isGiftedOrTalented" },
+    { label: "Does the student appeared in any State Level Competitions/ National level Competitions/ Olympiads?", key: "participatedInCompetitions" },
+    { label: "Does the Student participate in NCC/ NSS/ Scouts and Guides?", key: "participatedInActivities" },
+    { label: "Whether student is capable of handling digital devices including the internet?", key: "canHandleDigitalDevices" },
+    { label: "Student's Height (in CMs)", key: "heightInCm" },
+    { label: "Student's Weight (in KGs)", key: "weightInKg" },
+    { label: "Approximate Distance of student's residence to school", key: "distanceToSchool" },
+    { label: "Completed Highest Education Level of Mother/Father/Legal Guardian", key: "parentEducationLevel" },
+  
+    // Enrollment Details
+    { label: "Admission Number in Present School", key: "admissionNumber" },
+    { label: "Admission Date (DD/MM/YYYY) in Present School", key: "admissionDate" },
+    { label: "Class/Section Roll No", key: "rollNumber" },
+    { label: "Medium of Instruction", key: "mediumOfInstruction" },
+    { label: "Languages Group Studied by the Student", key: "languagesStudied" },
+    { label: "Academic Stream opted by student", key: "academicStream" },
+    { label: "Subjects Group Studied by the Student", key: "subjectsStudied" },
+    { label: "Status of Student in Previous Academic Year Schooling (2023-24)", key: "statusInPreviousYear" },
+    { label: "Grade/Class Studied in the Previous/Last Academic year (2023-24)", key: "gradeStudiedLastYear" },
+    { label: "Admitted / Enrolled Under (Only for Pvt. Unaided)", key: "enrolledUnder" },
+    { label: "In the previous class Studied - result of the examinations", key: "previousResult" },
+    { label: "Marks Obtained (in Percentage)", key: "marksObtainedPercentage" },
+    { label: "No. of days child attended school (in the previous academic year)", key: "daysAttendedLastYear" },
+  ];
+  
   

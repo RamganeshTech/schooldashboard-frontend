@@ -65,6 +65,9 @@
     color: #343a40;
     font-size: clamp(14px, 3vw, 20px);
     flex-shrink: 0;
+    word-wrap: break-word;
+    white-space: normal;
+    max-width: 70%; 
 }
 
 .value {
