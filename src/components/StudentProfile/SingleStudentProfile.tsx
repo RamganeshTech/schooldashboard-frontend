@@ -38,7 +38,6 @@ const SingleStudentProfile = () => {
 
 
    const getStudentList = async () => {
-
     // setGetStudentLoading(true)
     // setGetStudentError("")
     let abortController = new AbortController()
@@ -145,13 +144,15 @@ const SingleStudentProfile = () => {
                 </div>
               </div>
 
-              <div className={style.subSection}>
+              {/* <div className={style.subSection}>
                 <h2 className={style.subHeading}>Address</h2>
                 <p className={style.value}>#123, 2nd Cross, Bangalore</p>
-              </div>
+              </div> */}
 
               <List className={style.infoList}>
-                <ListItemButton>
+                <ListItemButton
+                    onClick={() => setShowExtraInfo("mandatory")}
+                >
                   <ListItemText
                     primary="Mandatory Info"
                     sx={{
@@ -166,12 +167,13 @@ const SingleStudentProfile = () => {
                         textAlign: 'center',
                       },
                     }}
-                    onClick={() => setShowExtraInfo("mandatory")}
                   />
                 </ListItemButton>
                 <Divider />
 
-                <ListItemButton>
+                <ListItemButton
+                    onClick={() => setShowExtraInfo("nonmandatory")}
+                >
                   <ListItemText
                     primary="Non-Mandatory Info"
                     sx={{
@@ -186,7 +188,6 @@ const SingleStudentProfile = () => {
                         textAlign: 'center',
                       },
                     }}
-                    onClick={() => setShowExtraInfo("nonmandatory")}
 
                   />
                 </ListItemButton>
@@ -199,17 +200,6 @@ const SingleStudentProfile = () => {
             <h2 className={style.heading}>Mandatory Details</h2>
 
             <section className={style.profileSection}>
-              {/* {mandatoryDetails.map((item, index) => (
-    {SingleStudent && (
-      <MandatorySingle
-        key={SingleStudent._id}
-        item={item}
-        student={SingleStudent}
-     
-      />
-    )}
-    // <MandatorySingle key={student?._id} item={item} student={SingleStudent} />
-  ))} */}
 
               {SingleStudent && mandatoryDetails.map((item) => (
                 <MandatorySingle
@@ -221,9 +211,14 @@ const SingleStudentProfile = () => {
 
             </section>
 
-            <button onClick={() => setShowExtraInfo(null)} className={style.backButton}>
+            <Button variant='contained'
+            sx={{
+              display:"block",
+              margin:"20px auto"
+            }}
+            onClick={() => setShowExtraInfo(null)} className={style.backButton}>
               ← Back to Profile
-            </button>
+            </Button>
           </div>
         ) : (
           <div className={style.card}>
@@ -232,9 +227,14 @@ const SingleStudentProfile = () => {
             {SingleStudent && nonMandatoryDetails.map(item=>
               <NonMandatorySingle key={item.key} item={item} student={SingleStudent} />
             )}
-            <button onClick={() => setShowExtraInfo(null)} className={style.backButton}>
+            <Button variant='contained'
+              sx={{
+                display:"block",
+                margin:"20px auto"
+              }}
+            onClick={() => setShowExtraInfo(null)} className={style.backButton}>
               ← Back to Profile
-            </button>
+            </Button>
           </div>
         )
 

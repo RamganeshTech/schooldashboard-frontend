@@ -15,6 +15,17 @@ type MandatorySingleProp = {
     student: StudentDetailnew,
 }
 
+function isValidDateString(dateString: string):  string {
+    // const date = new Date(dateString);
+        // let convertedDate = date.getDate().toString().padStart(2, "0")
+        // let convertedMonth= (date.getMonth()+1).toString().padStart(2, "0")
+        // let convertedYear = date.getFullYear()
+        // return `${convertedDate}-${convertedMonth}-${convertedYear}`
+        let dateArr = dateString.split('-')
+        return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
+        
+  }
+
 const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
     let context = useContext(SchoolContext)
 
@@ -56,10 +67,16 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
             const abortController = new AbortController();
             const { signal } = abortController;
 
+            let valueToSend = inputValue;
+
+            if(item.key==="dob"){
+                valueToSend = isValidDateString(valueToSend as string)
+            }
+
             const updatePayload = {
-                profileData: {
-                    [item.key]: inputValue
-                }
+                    profileData: {
+                        [item.key]: valueToSend
+                    }
             };
 
             let { data } = await axiosInstance.patch<createdResponse>(`/api/${adminPage ? "admin" : "accountant"}/updateStudentProfile/${student._id}`, updatePayload, {

@@ -11,7 +11,7 @@
 .card {
     background-color: #ffffff;
     width: 100%;
-    max-width: 700px;
+    max-width: 800px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 2rem;
@@ -60,14 +60,14 @@
 }
 
 .label {
-    min-width: 130px; 
+    /* min-width: 130px;  */
     font-weight: 600;
     color: #343a40;
     font-size: clamp(14px, 3vw, 20px);
     flex-shrink: 0;
     word-wrap: break-word;
     white-space: normal;
-    max-width: 70%; 
+    max-width: 55%; 
 }
 
 .value {
@@ -78,6 +78,7 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    max-width: 45%;
 
 }
 
@@ -104,6 +105,7 @@
 
 .details_Row{
     display: flex;
+    gap: 15px;
     justify-content: space-between;
     padding-bottom: 10px;
     border-bottom: 1px solid #0a0a0a2e;
@@ -122,13 +124,8 @@
   } */
 
   
-.backButton {
-    margin-top: 2rem;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    background-color: #3498db;
-    color: white;
-    font-weight: bold;
+/* .backButton {
+    margin-top: 1rem !important;
     border-radius: 8px;
     transition: background 0.3s ease;
     cursor: pointer;
@@ -136,7 +133,7 @@
   
   .backButton:hover {
     background-color: #2980b9;
-  }
+  } */
 
   .details_Row {
     animation: fadeIn 0.3s ease-in;

@@ -15,7 +15,7 @@ export type ProfileNonMandatory = {
 export const mandatoryDetails:ProfileItem[] = [
     { label: "Student's Name (as per School Record)", key: "studentName", },
     { label: "Gender", key: "gender" },
-    { label: "Date of Birth (DD/MM/YYYY)", key: "dob" },
+    { label: "Date of Birth (MM/DD/YYYY)", key: "dob" },
     { label: "Permanent Education Number", key: "educationNumber" },
     { label: "Mother's Name", key: "motherName" },
     { label: "Father's Name", key: "fatherName" },
