@@ -180,7 +180,7 @@ const Navbar:React.FC = () => {
 
         <section className='w-[7%] h-[100%]'>
           <Link to={adminPage ? '/admin' : "/accountant"} className='outline-none'>
-          <img src={companyLogo} alt="" className='h-[100%] w-[100%]'/>
+          <img src={companyLogo} alt="brand logo" className='h-[100%] w-[100%]'/>
           </Link>
         </section>
 
