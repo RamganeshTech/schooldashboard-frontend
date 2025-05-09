@@ -1,13 +1,12 @@
-import { ChangeEvent, useContext, useEffect, useMemo, useState } from 'react'
+import {  useContext, useEffect, useMemo, useState } from 'react'
 import style from './SingleStudentProfile.module.css'
 import { Link, useParams } from 'react-router-dom';
-import { List, Divider, ListItemButton, ListItemText, Button, IconButton } from '@mui/material';
+import { List, Divider, ListItemButton, ListItemText, Button } from '@mui/material';
 import { SchoolContext } from '../../Context/SchoolContextProvider';
 import MainLoading from '../MainLoading/MainLoading';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import EditIcon from '@mui/icons-material/Edit';
 import { mandatoryDetails, nonMandatoryDetails } from '../../Constants/constants';
-import { createdResponse, CustomAxiosRequestConfig, MandatoryDetails, StudentDetailnew } from '../../Types/types';
+import { createdResponse, CustomAxiosRequestConfig, StudentDetailnew } from '../../Types/types';
 import MandatorySingle from './MandatorySingle/MandatorySingle';
 import axiosInstance from '../../Api/apiClient';
 import axios from 'axios';
@@ -28,9 +27,7 @@ const SingleStudentProfile = () => {
   // console.log(studentList)
 
   let SingleStudent = useMemo(() => {
-    console.log(studentList)
     return studentList.find(student => {
-      console.log("use memo", id, student._id)
         return student._id === id
   })
   }, [student, studentList, id])
@@ -50,7 +47,7 @@ const SingleStudentProfile = () => {
       } as CustomAxiosRequestConfig<StudentDetailnew>
       )
 
-      console.log(data)
+      // console.log(data)
 
       if (data.ok) {
         setStudentList(data.data)
@@ -63,7 +60,7 @@ const SingleStudentProfile = () => {
         // setGetStudentError(error.response?.data?.message || "Something went wrong!");
       } else if ((error as Error).name === 'AbortError') {
         // Handle the request being aborted
-        console.error("Request was aborted:", (error as Error).message);
+        // console.error("Request was aborted:", (error as Error).message);
       } else if (error instanceof Error) {
         // Handle other errors
         console.log(error.message)

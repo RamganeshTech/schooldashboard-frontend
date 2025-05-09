@@ -3,7 +3,7 @@ import { Button, CircularProgress, IconButton, TextField } from '@mui/material';
 import React, { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 import style from '../SingleStudentProfile.module.css';
 import { createdResponse, CustomAxiosRequestConfig, NonMandatoryDetails, StudentDetailnew } from '../../../Types/types';
-import { ProfileItem, ProfileNonMandatory } from '../../../Constants/constants';
+import {  ProfileNonMandatory } from '../../../Constants/constants';
 import EditIcon from '@mui/icons-material/Edit';
 import axiosInstance from '../../../Api/apiClient';
 import { SchoolContext } from '../../../Context/SchoolContextProvider';
@@ -65,7 +65,7 @@ const NonMandatorySingle: React.FC<NonMandatorySingleProp> = ({ item, student })
         },
       };
 
-      console.log("data need to be updated", updatePayload)
+      // console.log("data need to be updated", updatePayload)
 
       let { data } = await axiosInstance.patch<createdResponse>(
         `/api/${adminPage ? "admin" : "accountant"}/updateStudentProfileNonMandatory/${student._id}`,
@@ -84,7 +84,7 @@ const NonMandatorySingle: React.FC<NonMandatorySingleProp> = ({ item, student })
         setInputValue(null);
         setIsEditing(false);
       }
-      console.log(data.data);
+      // console.log(data.data);
     } catch (error) {
       console.error(error);
       if (axios.isAxiosError(error)) {
@@ -111,7 +111,6 @@ const NonMandatorySingle: React.FC<NonMandatorySingleProp> = ({ item, student })
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  console.log(item)
   return (
     <>
       <div className={style.details_Row}>

@@ -13,7 +13,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [student, setStudent] = useState<StudentDetailnew>({
     newOld: null,
-    studentClass:null,
+    studentClass: null,
     section: null,
     studentName: null,
     adminssionAmt: null,
@@ -49,40 +49,71 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     busPoint: null,
     whatsappNumber: null,
 
-    mandatory:{
-        gender: null,
-        dob: null,
-        educationNumber: null,
-        motherName: null,
-        fatherName: null,
-        guardianName: null,
-        aadhaarNumber: null,
-        aadhaarName: null,
-        address: null,
-        pincode: null,
-        mobileNumber: null,
-        alternateMobile: null,
-        email: null,
-        motherTongue: null,
-        socialCategory: null,
-        minorityGroup: null,
-        bpl: null,
-        aay: null,
-        ews: null,
-        cwsn: null,
-        impairments: null,
-        indian: null,
-        outOfSchool: null,
-        mainstreamedDate: null,
-        disabilityCert: null,
-        disabilityPercent: null,
-        bloodGroup: null,
+    mandatory: {
+      gender: null,
+      dob: null,
+      educationNumber: null,
+      motherName: null,
+      fatherName: null,
+      guardianName: null,
+      aadhaarNumber: null,
+      aadhaarName: null,
+      address: null,
+      pincode: null,
+      mobileNumber: null,
+      alternateMobile: null,
+      email: null,
+      motherTongue: null,
+      socialCategory: null,
+      minorityGroup: null,
+      bpl: null,
+      aay: null,
+      ews: null,
+      cwsn: null,
+      impairments: null,
+      indian: null,
+      outOfSchool: null,
+      mainstreamedDate: null,
+      disabilityCert: null,
+      disabilityPercent: null,
+      bloodGroup: null,
+    },
+
+    nonMandatory: {
+      facilitiesProvided: "",
+      facilitiesForCWSN: "",
+      screenedForSLD: "",
+      sldType: "",
+      screenedForASD: "",
+      screenedForADHD: "",
+      isGiftedOrTalented: "",
+      participatedInCompetitions: "",
+      participatedInActivities: "",
+      canHandleDigitalDevices: "",
+      heightInCm: "",
+      weightInKg: "",
+      distanceToSchool: "",
+      parentEducationLevel: "",
+
+      admissionNumber: "",
+      admissionDate: "",
+      rollNumber: "",
+      mediumOfInstruction: "",
+      languagesStudied: "",
+      academicStream: "",
+      subjectsStudied: "",
+      statusInPreviousYear: "",
+      gradeStudiedLastYear: "",
+      enrolledUnder: "",
+      previousResult: "",
+      marksObtainedPercentage: "",
+      daysAttendedLastYear: "",
     }
   })
 
   const [editStudent, setEditStudent] = useState<EditStudent>({
     newOld: null,
-    studentClass:null,
+    studentClass: null,
     studentName: null,
     section: null,
     adminssionAmt: null,
@@ -176,7 +207,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setState: React.Dispatch<React.SetStateAction<T>>,
   ) => {
     try {
-      if (typeof value === "string" && value.includes("-") && !isNaN(new Date(value).getTime()) && key!=="studentClass") {
+      if (typeof value === "string" && value.includes("-") && !isNaN(new Date(value).getTime()) && key !== "studentClass") {
         console.log(key, value)
         if (new Date(value) > new Date()) { //checking is selected date is in future or not
           setState((prev) => {
@@ -209,7 +240,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const sectionRegex = /^[A-Za-z0-9]+$/
     const classRegex = /^[A-Za-z0-9|\.]+$/;
 
-    const whatsappRegex = /^\d{10}$/; 
+    const whatsappRegex = /^\d{10}$/;
 
 
     if (!student.newOld) {
@@ -229,7 +260,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     else if (/^0+$/.test(student.studentClass)) {
       error.studentClass = "Class should not be only zero";
     }
-    
+
 
     if (!student.section) {
       error.section = "Enter the section"
@@ -252,9 +283,9 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     if (student.whatsappNumber) {
       if (!whatsappRegex.test(student.whatsappNumber)) {
-          error.whatsappNumber = "WhatsApp number must be exactly 10 digits";
+        error.whatsappNumber = "WhatsApp number must be exactly 10 digits";
       }
-  }
+    }
 
     return error;
   }
@@ -362,7 +393,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     isEditing, setIsEditing,
     currentEditingId, setCurrentEditingId,
     deletedLoginList, setDeletedLoginList,
-    getDeletedLoginList,setDeletedLoginLoading,
+    getDeletedLoginList, setDeletedLoginLoading,
     deletedLoginError, deletedLoginsLoading,
     setDeletedLoginError,
     accountantLoading

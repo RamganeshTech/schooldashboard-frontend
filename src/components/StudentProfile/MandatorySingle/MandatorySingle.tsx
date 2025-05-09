@@ -91,15 +91,15 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
                 setIsEditing(false)
 
             }
-            console.log(data.data)
+            // console.log(data.data)
         }
         catch (error) {
-            console.log(error)
+            // console.log(error)
             if (axios.isAxiosError(error)) {
                 // setisErrorDisplying(true)
                 // setFormError(error.response?.data?.message || "Something went wrong!");
             } else if ((error as Error).name === 'AbortError') {
-                console.log(error)
+                // console.log(error)
             } else if (error instanceof Error) {
 
                 console.log(error)

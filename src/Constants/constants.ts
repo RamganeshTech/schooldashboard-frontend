@@ -1,4 +1,4 @@
-import { MandatoryDetails, NonMandatoryDetails, StudentDetailnew } from "../Types/types";
+import { MandatoryDetails, NonMandatoryDetails } from "../Types/types";
 
 
 

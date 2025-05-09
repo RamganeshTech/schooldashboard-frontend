@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import LoginSelection from './Pages/LoginGroup/LoginSelection'
-import React, { Component, Suspense } from 'react';
+import React, { Suspense } from 'react';
 
 import AdminLogin from './Pages/Admin/AdminLogin/AdminLogin';
 import MainLoading from './components/MainLoading/MainLoading';

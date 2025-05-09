@@ -130,7 +130,7 @@ export interface StudentDetailnew {
   nonMandatory: NonMandatoryDetails
 }
 
-export type EditStudent = Omit<StudentDetailnew, "mandatory">;
+export type EditStudent = Omit<StudentDetailnew, "mandatory" | "nonMandatory">;
 
 export interface ErrorStudent {
 
