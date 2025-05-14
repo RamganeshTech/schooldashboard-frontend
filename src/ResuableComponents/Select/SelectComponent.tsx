@@ -46,8 +46,8 @@ const SelectComponent = <T,>({required,state,updateKey,setState}: SelectProps<T>
         }
       }}
     onChange={(e)=>{
-        let booleanValue = e.target.value === "New" ? true : false;
-     handleInputChange(updateKey, booleanValue as boolean,setState )}
+        
+     handleInputChange(updateKey, e.target.value,setState, false )}
     }
   >
     <MenuItem value={"Old"}>Old</MenuItem>

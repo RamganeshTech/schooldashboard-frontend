@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React, {  useContext } from 'react'
 import { SchoolContext } from '../../Context/SchoolContextProvider'
 import { TextField } from '@mui/material';
+import {  placeholderMap } from '../../Constants/constants';
 
 interface InputProps<T,> {
   updateKey: keyof T;
@@ -11,11 +12,15 @@ interface InputProps<T,> {
   type: string;
   index?:number;
   required:string;
-  name:string
-
+  name:string;
+  updating:boolean
 }
 
-const Input = ({ state, setState, required, updateKey, type, placeholder, name }: InputProps<any>) => {
+const handlePlaceholder = (placeholder:string)=>{
+ return placeholderMap[placeholder] || placeholder
+}
+
+const Input = ({ state, setState, required, updateKey, type, placeholder, name, updating }: InputProps<any>) => {
 
   const context = useContext(SchoolContext);
   if (!context) {
@@ -46,18 +51,20 @@ const Input = ({ state, setState, required, updateKey, type, placeholder, name }
         
         required={required==="yes"}
         variant='outlined'
-        placeholder={placeholder}
+        placeholder={handlePlaceholder(placeholder)}
         value={handleValue(state)}
         onChange={(e) => {
 
-          return handleInputChange(updateKey, e.target.value, setState)
+        // return handlePredeterminedFee(e)
+
+        return handleInputChange(updateKey, e.target.value, setState, updating)
         }}
         
         
         className='shadow-sm'
         sx={{
           width: "100%",
-          marginBottom: "16px",
+          marginBottom: "10px",
           "& .MuiOutlinedInput-root fieldset": {
             borderWidth: "1px", 
             borderStyle: "solid", 

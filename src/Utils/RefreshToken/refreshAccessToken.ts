@@ -11,7 +11,7 @@ export const AdminRefreshToken = async (): Promise<boolean | null> => {
             withCredentials:true
         }); 
 
-        console.log(data)
+        // console.log(data)
         return data.ok; 
     } catch (error) {
         if(axios.isAxiosError(error)){

@@ -87,6 +87,7 @@ export interface NonMandatoryDetails {
 export interface StudentDetailnew {
   _id?: string | number | null
 
+  srId:(string | null);
   newOld: (string | null);
   studentClass: (string | null)
   section: (string | null);
@@ -135,7 +136,7 @@ export type EditStudent = Omit<StudentDetailnew, "mandatory" | "nonMandatory">;
 export interface ErrorStudent {
 
   _id?: string | number | null
-
+  srId?: string;
   newOld?: string;
   studentClass?: string;
   section?: string;
@@ -207,8 +208,8 @@ export interface SchoolContextType {
     key: keyof T,
     value: string | boolean,
     setState: React.Dispatch<React.SetStateAction<T>>,
+    updating:boolean,
     index?: number,
-
   ) => void;
 
   apiUrl: string;

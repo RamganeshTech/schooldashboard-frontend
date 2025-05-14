@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createdResponse, CustomAxiosRequestConfig, EditStudent, StudentDetailnew } from '../../Types/types'
 import style from './SingleStudent.module.css'
 import { SchoolContext } from '../../Context/SchoolContextProvider';
@@ -8,14 +8,17 @@ import { calculateBusFirstTermDues, calculateBusSecondTermDues, calculateDues } 
 import axiosInstance from '../../Api/apiClient';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { studentFieldOrder } from '../../Constants/constants';
 
 
+const nonEditableFields = ["srId", "admissionBillNo",
+    "firstTermBillNo",
+    "secondTermBillNo",]
 interface SingleStudentDetail {
     student: StudentDetailnew
-    singleStudentIndex: number;
 }
 
-const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIndex }) => {
+const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
 
     const context = useContext(SchoolContext)
 
@@ -34,16 +37,16 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
 
     let navigate = useNavigate()
 
-    const handleStudentProfileNavigate = ()=>{
-        if(!rowUpdating && allowNavigationStudentProfile){
+    const handleStudentProfileNavigate = () => {
+        if (!rowUpdating && allowNavigationStudentProfile) {
             navigate(`/${adminPage ? `admin` : "accountant"}/singlestudentprofile/${student._id}`)
         }
-    }   
+    }
 
     let hiddenStudentDetails = [
-        "admissionBillNo",
-        "firstTermBillNo",
-        "secondTermBillNo",
+        // "admissionBillNo",
+        // "firstTermBillNo",
+        // "secondTermBillNo",
         "dues",
         "busfirstTermDues",
         "busSecondTermDues",
@@ -94,16 +97,13 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
 
 
         setCurrentEditingId(student._id)
-        
+
         setEditStudent(() => {
-            
+
             const updatedStudent = { ...student };
-            
+
             return updatedStudent;
         });
-
-
-        
     }
 
     const handleSave = async () => {
@@ -133,14 +133,14 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             let recalculateBusFirstTermDues = false;
             let recalculateBusSecondTermDues = false;
 
-            
+
             let checkRecalculateDues = 1;
             let checkRecalculateBusFirstTermDues = 1;
             let checkRecalculateBusSecondTermDues = 1;
 
             for (const key in editStudent) {
                 if (editStudent[key as keyof EditStudent] !== student[key as keyof StudentDetailnew]) {
-                    
+
                     const currentValue = student[key as keyof StudentDetailnew];
                     if (currentValue !== null && currentValue !== "" && currentValue !== 0) {
                         let newValue = editStudent[key as keyof EditStudent];
@@ -153,10 +153,10 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                             typeof newValue === "string" ||
                             typeof newValue === "number" ||
                             newValue === null
-                          ) {
+                        ) {
                             fieldsRequiringApproval[key as keyof StudentDetailnew] = newValue;
-                          }
-                          
+                        }
+
                         // fieldsRequiringApproval[key as keyof StudentDetailnew] = newValue; 
 
                         if (feeKeys.includes(key)) {
@@ -198,23 +198,23 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             if (recalculateDues) {
                 const calculatedDues = calculateDues(editStudent);
                 Object.keys(calculatedDues).forEach((key) => {
-                  const value = calculatedDues[key as keyof StudentDetailnew];
-              
-                  // Skip if the key is "mandatory" or if the value is not a string or number (or null/undefined)
-                  if (key === "mandatory" || (typeof value === "object" && value !== null)) {
-                    return;
-                  }
-              
-                  if (!checkRecalculateDues) {
-                    fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
-                  } else {
-                    updatedFields[key as keyof StudentDetailnew] = value;
-                  }
+                    const value = calculatedDues[key as keyof StudentDetailnew];
+
+                    // Skip if the key is "mandatory" or if the value is not a string or number (or null/undefined)
+                    if (key === "mandatory" || (typeof value === "object" && value !== null)) {
+                        return;
+                    }
+
+                    if (!checkRecalculateDues) {
+                        fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
+                    } else {
+                        updatedFields[key as keyof StudentDetailnew] = value;
+                    }
                 });
-              }
-              
-              
-              
+            }
+
+
+
 
             // if (recalculateBusFirstTermDues) {
             //     const calculatedBusFirstTermDues = calculateBusFirstTermDues(editStudent);
@@ -229,23 +229,23 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
 
             if (recalculateBusFirstTermDues) {
                 const calculatedBusFirstTermDues = calculateBusFirstTermDues(editStudent);
-              
+
                 Object.keys(calculatedBusFirstTermDues).forEach((key) => {
-                  const value = calculatedBusFirstTermDues[key as keyof StudentDetailnew];
-              
-                  // Skip if the key is "mandatory" or if the value is an object (and not null)
-                  if (key === "mandatory" || (typeof value === "object" && value !== null)) {
-                    return;
-                  }
-              
-                  if (!checkRecalculateBusFirstTermDues) {
-                    fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
-                  } else {
-                    updatedFields[key as keyof StudentDetailnew] = value;
-                  }
+                    const value = calculatedBusFirstTermDues[key as keyof StudentDetailnew];
+
+                    // Skip if the key is "mandatory" or if the value is an object (and not null)
+                    if (key === "mandatory" || (typeof value === "object" && value !== null)) {
+                        return;
+                    }
+
+                    if (!checkRecalculateBusFirstTermDues) {
+                        fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
+                    } else {
+                        updatedFields[key as keyof StudentDetailnew] = value;
+                    }
                 });
-              }
-              
+            }
+
 
             // if (recalculateBusSecondTermDues) {
             //     const calculatedBusSecondTermDues = calculateBusSecondTermDues(editStudent);
@@ -260,23 +260,23 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
 
             if (recalculateBusSecondTermDues) {
                 const calculatedBusSecondTermDues = calculateBusSecondTermDues(editStudent);
-              
+
                 Object.keys(calculatedBusSecondTermDues).forEach((key) => {
-                  const value = calculatedBusSecondTermDues[key as keyof StudentDetailnew];
-              
-                  // Skip if the key is "mandatory" or if the value is an object (and not null)
-                  if (key === "mandatory" || (typeof value === "object" && value !== null)) {
-                    return;
-                  }
-              
-                  if (!checkRecalculateBusSecondTermDues) {
-                    fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
-                  } else {
-                    updatedFields[key as keyof StudentDetailnew] = value;
-                  }
+                    const value = calculatedBusSecondTermDues[key as keyof StudentDetailnew];
+
+                    // Skip if the key is "mandatory" or if the value is an object (and not null)
+                    if (key === "mandatory" || (typeof value === "object" && value !== null)) {
+                        return;
+                    }
+
+                    if (!checkRecalculateBusSecondTermDues) {
+                        fieldsRequiringApproval[key as keyof StudentDetailnew] = value;
+                    } else {
+                        updatedFields[key as keyof StudentDetailnew] = value;
+                    }
                 });
-              }
-              
+            }
+
 
 
             // API CALLING FOR ADMIN PERMISSION
@@ -332,24 +332,24 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
 
 
                     const today = new Date();
-                    const modifiedDate = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`; 
-                    
-                    const fieldsModified = Object.keys(updatedFields); 
+                    const modifiedDate = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`;
+
+                    const fieldsModified = Object.keys(updatedFields);
                     const relationId = editStudent?._id
-        
-                    
-                     await axiosInstance.post('/api/accountant/changesmodified', {
+
+
+                    await axiosInstance.post('/api/accountant/changesmodified', {
                         modifiedDate,
                         fieldsModified,
-                        
+
                         relationId
-                    }, 
-                    {
-                        userType:"accountant"
-                    } as CustomAxiosRequestConfig<{}>);
+                    },
+                        {
+                            userType: "accountant"
+                        } as CustomAxiosRequestConfig<{}>);
                 }
             }
-            
+
             setRowUpdating(false);
             setIsEditing(false);
             setIsStudentListUpdated(true)
@@ -386,7 +386,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             const busFirstTermKeys = ["busFirstTermPaidAmt", "busFirstTermAmt"];
             const busSecondTermKeys = ["busSecondTermPaidAmt", "busSecondTermAmt"];
 
-            
+
 
             let errors = handleError(editStudent)
 
@@ -398,7 +398,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
             }
 
 
-          
+
 
             let updatedStudent = { ...editStudent };
 
@@ -445,29 +445,29 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                 let onlyModifiedKeys = {};
                 // for (const key in updatedStudent) {
                 //     if (updatedStudent[key as keyof StudentDetailnew] !== student[key as keyof StudentDetailnew]) {
-    
+
                 //         onlyModifiedKeys = {...onlyModifiedKeys, [key]:updatedStudent[key as keyof StudentDetailnew]}
-    
+
                 //     }
                 // }
 
                 for (const key in updatedStudent) {
                     const typedKey = key as keyof typeof editStudent;
-                  
+
                     if (updatedStudent[typedKey] !== student[typedKey]) {
-                      onlyModifiedKeys = {
-                        ...onlyModifiedKeys,
-                        [typedKey]: updatedStudent[typedKey],
-                      };
+                        onlyModifiedKeys = {
+                            ...onlyModifiedKeys,
+                            [typedKey]: updatedStudent[typedKey],
+                        };
                     }
-                  }
-                  
+                }
+
 
                 const today = new Date();
-                const modifiedDate = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`; 
-                const fieldsModified = Object.keys(onlyModifiedKeys); 
+                const modifiedDate = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`;
+                const fieldsModified = Object.keys(onlyModifiedKeys);
                 const relationId = updatedStudent?._id
-    
+
 
 
                 await axiosInstance.post('/api/admin/changesmodified', {
@@ -475,16 +475,16 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
                     fieldsModified,
                     relationId
                 }, {
-                    userType:"admin"
+                    userType: "admin"
                 } as CustomAxiosRequestConfig<{}>);
-    
+
             }
 
 
             setRowUpdating(false);
             setIsEditing(false);
             setIsStudentListUpdated(true)
-        setAllowNavigationStudentProfile(true)
+            setAllowNavigationStudentProfile(true)
         }
         catch (error) {
             if (axios.isAxiosError(error)) {
@@ -505,7 +505,33 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
         }
     }
 
-        //  FOR COLOR ADMINSION AMOUT ALSO
+    const handleGenerateTC = async (srId: string) => {
+        try {
+          const { data } = await axiosInstance.patch(`/api/admin/generatetc/${srId}`, {
+            userType: "admin"
+          } as CustomAxiosRequestConfig<void>)
+    
+          console.log("data", data)
+          if (data.ok) {
+            return data.data
+          }
+        }
+        catch (error) {
+          if (axios.isAxiosError(error)) {
+            console.log(error.response?.data?.message || "Something went wrong!");
+          } else if (error instanceof Error) {
+            console.log(error.message);
+          } else {
+            console.log("An unexpected error occurred.");
+          }
+        }
+      }
+
+    useEffect(() => {
+        // console.log("editStudent",editStudent)
+    }, [editStudent])
+
+    //  FOR COLOR ADMINSION AMOUT ALSO
     // let adminssionPaidAmount = ""
     let firstTermPaidAmount = "";
     let secondTermPaidAmount = ""
@@ -518,17 +544,17 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
     let remainingSecondTermAmt: number | undefined;
     let remainingConcession: number | undefined = (concession ?? 0)
 
-// REMOVE THIS IF CONDITION FOR MAKING THE COLOR INDICATION FOR ADMNSION AMOUNT TOO
+    // REMOVE THIS IF CONDITION FOR MAKING THE COLOR INDICATION FOR ADMNSION AMOUNT TOO
     if (adminssionPaidAmt !== null && concession !== null) {
         let admissionlevelCalculation: number = adminssionAmt ? adminssionAmt - (adminssionPaidAmt ?? 0) : 0;
-       let remainingAdmissionAmount: number = concession ? admissionlevelCalculation - concession : admissionlevelCalculation
+        let remainingAdmissionAmount: number = concession ? admissionlevelCalculation - concession : admissionlevelCalculation
 
         remainingAdmissionAmount = Math.max(0, remainingAdmissionAmount)
 
         if (remainingAdmissionAmount !== admissionlevelCalculation) {
             const difference = Math.max(admissionlevelCalculation, remainingAdmissionAmount) - Math.min(admissionlevelCalculation, remainingAdmissionAmount);
 
-            remainingConcession = concession != null ? Math.max(0, concession - difference) : 0; 
+            remainingConcession = concession != null ? Math.max(0, concession - difference) : 0;
 
         }
 
@@ -542,7 +568,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
         //     adminssionPaidAmount = ''; 
         // }
         // else {
-    
+
         //     adminssionPaidAmount = `${style.warning}`; 
         // }
 
@@ -550,56 +576,56 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
 
 
 
-    let firstlevelCalculation = (firstTermAmt ?? 0) - (firstTermPaidAmt ?? 0) 
+    let firstlevelCalculation = (firstTermAmt ?? 0) - (firstTermPaidAmt ?? 0)
 
 
-    remainingFirstTermAmt = remainingConcession ? firstlevelCalculation - remainingConcession : firstlevelCalculation; 
+    remainingFirstTermAmt = remainingConcession ? firstlevelCalculation - remainingConcession : firstlevelCalculation;
 
-    remainingFirstTermAmt = Math.max(0, remainingFirstTermAmt) 
+    remainingFirstTermAmt = Math.max(0, remainingFirstTermAmt)
 
 
     if (remainingFirstTermAmt !== firstlevelCalculation) {
-        
-        
+
+
         const difference = Math.max(firstlevelCalculation, remainingFirstTermAmt) - Math.min(firstlevelCalculation, remainingFirstTermAmt);
-        
-        remainingConcession = remainingConcession != null ? Math.max(0, remainingConcession - difference) : 0; 
+
+        remainingConcession = remainingConcession != null ? Math.max(0, remainingConcession - difference) : 0;
     }
 
     if (firstTermPaidAmt === 0 || firstTermPaidAmt === null) {
         if (remainingConcession === 0 && remainingFirstTermAmt) {
-            firstTermPaidAmount = `${style.danger}`; 
+            firstTermPaidAmount = `${style.danger}`;
         }
     }
     else if (remainingFirstTermAmt === 0) {
-        firstTermPaidAmount = ''; 
+        firstTermPaidAmount = '';
     }
     else {
 
-        firstTermPaidAmount = `${style.warning}`; 
+        firstTermPaidAmount = `${style.warning}`;
     }
 
-    let secondLevelCalculation = (secondTermAmt ?? 0) - (secondTermPaidAmt ?? 0); 
+    let secondLevelCalculation = (secondTermAmt ?? 0) - (secondTermPaidAmt ?? 0);
 
     remainingSecondTermAmt = remainingConcession ? secondLevelCalculation - remainingConcession : secondLevelCalculation;
 
     if (remainingSecondTermAmt !== secondLevelCalculation) {
-        
+
         const difference = secondLevelCalculation - remainingSecondTermAmt;
-        
+
         remainingConcession = remainingConcession != null ? Math.max(0, remainingConcession - difference) : 0;
     }
 
     if (secondTermPaidAmt === 0 || secondTermPaidAmt === null) {
 
         if (remainingConcession === 0 && remainingSecondTermAmt) {
-            secondTermPaidAmount = `${style.danger}`; 
+            secondTermPaidAmount = `${style.danger}`;
         }
     }
     else if (remainingSecondTermAmt === 0) {
-        secondTermPaidAmount = ''; 
+        secondTermPaidAmount = '';
     } else {
-        secondTermPaidAmount = `${style.warning}`; 
+        secondTermPaidAmount = `${style.warning}`;
     }
 
     //  FOR COLOR ADMINSION AMOUT ALSO
@@ -608,154 +634,177 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student, singleStudentIn
     if (firstTermPaidAmount === `${style.danger}` || secondTermPaidAmount === `${style.danger}`) {
         totalDueColor = `${style.danger}`;
         studentNameColor = `${style.danger}`;
-    //  FOR COLOR ADMINSION AMOUT ALSO
-    // } else if (firstTermPaidAmount === `${style.warning}` || secondTermPaidAmount === `${style.warning}` || adminssionPaidAmount === `${style.warning}`) {
+        //  FOR COLOR ADMINSION AMOUT ALSO
+        // } else if (firstTermPaidAmount === `${style.warning}` || secondTermPaidAmount === `${style.warning}` || adminssionPaidAmount === `${style.warning}`) {
     } else if (firstTermPaidAmount === `${style.warning}` || secondTermPaidAmount === `${style.warning}`) {
         totalDueColor = `${style.warning}`;
         studentNameColor = `${style.warning}`;
     }
-
-
     return (
         <>
-                {/* <Link to={`../singlestudentprofile/${student._id}`}> */}
+            {/* <Link to={`../singlestudentprofile/${student._id}`}> */}
             <tr className={`${style.tbody_row}`}>
-                
 
-                <td className={`${style.tbody_cell}`} onClick={handleStudentProfileNavigate}>{singleStudentIndex + 1}</td>
-            
-                    
-                    {!adminPage ? (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
-                        // FOR ACCOUNTANT
-                        if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory" && ele!=="nonMandatory") {
 
-                            let bgColor = "";
-                            if (ele === "firstTermPaidAmt") bgColor = firstTermPaidAmount;
-                            if (ele === "secondTermPaidAmt") bgColor = secondTermPaidAmount;
-                            if (ele === "studentName") bgColor = studentNameColor;
-                            if (ele === "dues") bgColor = totalDueColor;
-                            // if(ele === "adminssionPaidAmt") bgColor = adminssionPaidAmount
-                            return (
-                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""} ${allowNavigationStudentProfile ? 'cursor-pointer' : "none"}`} onClick={handleStudentProfileNavigate}>
-                                    {rowUpdating ?
-    
-                                        <EditInput
-                                            
-                                            index={index}
-                                            required="no"
-                                            state={editStudent[ele]}
-                                            placeholder=''
-                                            setState={setEditStudent}
-                                            updateKey={ele}
-                                            type={inputType(ele)}
-                                        
-                                        
-                                        />
-                                        :
-                                        (student[ele] ? student[ele] : "-")
-                                    }
-                                </td>
-                            )
-                        }
-                    }
-                    )
-                    :
-                    // FOR ADMIN 
-                        (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
-                            if (ele === "_id" || ele === "createdAt" as string || ele === "updatedAt" as string || ele === "__v" as string || ele === "mandatory" || ele==="nonMandatory") {
-                                return;
-                            }
-    
-                            let bgColor = "";
-                            if (ele === "firstTermPaidAmt") bgColor = firstTermPaidAmount;
-                            if (ele === "secondTermPaidAmt") bgColor = secondTermPaidAmount;
-                            if (ele === "studentName") bgColor = studentNameColor;
-                            if (ele === "dues") bgColor = totalDueColor;
-                            // if(ele === "adminssionPaidAmt") bgColor = adminssionPaidAmount
-    
-    
-                            
-                            return (
-                                <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""} ${allowNavigationStudentProfile ? 'cursor-pointer' : "none"}`} onClick={handleStudentProfileNavigate}>
-                                    {rowUpdating ?
-    
-                                        <EditInput
-                                            
-                                            index={index}
-                                            required="no"
-                                            state={editStudent[ele]}
-                                            placeholder=''
-                                            setState={setEditStudent}
-                                            updateKey={ele}
-                                            type={inputType(ele)}
-                                        
-                                        
-                                        />
-                                        :
-                                        (student[ele] ? student[ele] : "-")
-                                    }
-                                </td>
-                            )
-    
-                        }
+                {/* <td className={`${style.tbody_cell}`} onClick={handleStudentProfileNavigate}>{student.SRId}</td> */}
+
+                {/* {!adminPage ? (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => { */}
+                {!adminPage ? studentFieldOrder.map((ele, index) => {
+                    // FOR ACCOUNTANT
+                    if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory" && ele !== "nonMandatory") {
+
+                        let bgColor = "";
+                        if (ele === "firstTermPaidAmt") bgColor = firstTermPaidAmount;
+                        if (ele === "secondTermPaidAmt") bgColor = secondTermPaidAmount;
+                        if (ele === "studentName") bgColor = studentNameColor;
+                        if (ele === "dues") bgColor = totalDueColor;
+                        // if(ele === "adminssionPaidAmt") bgColor = adminssionPaidAmount
+                        return (
+                            <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""} ${allowNavigationStudentProfile ? 'cursor-pointer' : "none"}`} onClick={handleStudentProfileNavigate}>
+                                {rowUpdating ? (nonEditableFields.includes(ele) ?
+                                    (student[ele] ? student[ele] : "-")
+                                    :
+                                    <EditInput
+
+                                        index={index}
+                                        required="no"
+                                        state={editStudent[ele]}
+                                        placeholder=''
+                                        setState={setEditStudent}
+                                        updateKey={ele}
+                                        type={inputType(ele)}
+                                        updating={true}
+
+                                    />
+                                )
+                                    :
+                                    (student[ele] ? student[ele] : "-")
+                                }
+                            </td>
                         )
                     }
-                    <td className={`${style.tbody_cell}`}>
-                        <Button
-                            onClick={handleRequest}
-                            disabled={rowUpdating}
-                            sx={{
-                                background: "#f2b84d",
+                }
+                )
+                    :
+                    // FOR ADMIN 
+                    // (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
+                    studentFieldOrder.map((ele, index) => {
+                        if (ele === "_id" || ele === "createdAt" as string || ele === "updatedAt" as string || ele === "__v" as string || ele === "mandatory" || ele === "nonMandatory") {
+                            return;
+                        }
+
+                        let bgColor = "";
+                        if (ele === "firstTermPaidAmt") bgColor = firstTermPaidAmount;
+                        if (ele === "secondTermPaidAmt") bgColor = secondTermPaidAmount;
+                        if (ele === "studentName") bgColor = studentNameColor;
+                        if (ele === "dues") bgColor = totalDueColor;
+                        // if(ele === "adminssionPaidAmt") bgColor = adminssionPaidAmount
+
+
+
+                        return (
+                            <td key={ele} className={`${style.tbody_cell} ${!rowUpdating ? bgColor : ""} ${allowNavigationStudentProfile ? 'cursor-pointer' : "none"}`} onClick={handleStudentProfileNavigate}>
+                                {rowUpdating ? (nonEditableFields.includes(ele) ?
+                                    (student[ele] ? student[ele] : "-")
+                                    :
+
+                                    <EditInput
+
+                                        index={index}
+                                        required="no"
+                                        state={editStudent[ele]}
+                                        placeholder=''
+                                        setState={setEditStudent}
+                                        updateKey={ele}
+                                        type={inputType(ele)}
+                                        updating={true}
+
+                                    />
+                                )
+                                    :
+                                    (student[ele] ? student[ele] : "-")
+                                }
+                            </td>
+                        )
+
+                    }
+                    )
+                }
+                <td className={`${style.tbody_cell}`}>
+                    <Button
+                        onClick={handleRequest}
+                        disabled={rowUpdating}
+                        sx={{
+                            background: "#f2b84d",
+                            color: "white",
+                            width: "150px",
+                            fontWeight: 500,
+                            fontSize: "18px",
+                            padding: "0px 10px",
+                            transition: 'background 0.3s ease',
+                            '&:hover': {
+                                background: '#d3931e',
+                            },
+                        }}
+                    >
+                        Update
+                    </Button>
+                </td>
+                <td className={`${style.tbody_cell}`}>
+                    <Button
+
+                        disabled={!rowUpdating || updateLoading}
+                        onClick={adminPage ? handleAdminSave : handleSave}
+                        sx={{
+
+
+                            width: "150px",
+                            fontWeight: 500,
+                            fontSize: "18px",
+                            background: "#26bc26",
+                            color: "white",
+                            padding: "0px 10px",
+                            transition: 'background 0.3s ease',
+                            '&:hover': {
+                                background: '#178f17',
+                            },
+                            "&:disabled": {
+                                marginRight: "10px",
+                                backgroundColor: "#26bc26",
                                 color: "white",
-                                width: "150px",
-                                fontWeight: 500,
+
                                 fontSize: "18px",
+                                height: "31px",
                                 padding: "0px 10px",
-                                transition: 'background 0.3s ease', 
-                                '&:hover': {
-                                    background: '#d3931e',
-                                },
-                            }}
-                        >
-                            Update
-                        </Button>
-                    </td>
-                    <td className={`${style.tbody_cell}`}>
-                        <Button
-                            
-                            disabled={!rowUpdating || updateLoading}
-                            onClick={adminPage ? handleAdminSave : handleSave}
-                            sx={{
-                                
-                                
-                                width: "150px",
-                                fontWeight: 500,
-                                fontSize: "18px",
-                                background: "#26bc26",
-                                color: "white",
-                                padding: "0px 10px",
-                                transition: 'background 0.3s ease', 
-                                '&:hover': {
-                                    background: '#178f17',
-                                },
-                                "&:disabled": {
-                                    marginRight: "10px",
-                                    backgroundColor: "#26bc26",
-                                    color: "white",
-                                    
-                                    fontSize: "18px",
-                                    height: "31px",
-                                    padding: "0px 10px",
-                                },
-                            }}
-                        >
-                            {updateLoading ? <CircularProgress size={24} thickness={5} sx={{ color: "white" }} /> : "Save"}
-    
-                        </Button>
-                    </td>
-                    
+                            },
+                        }}
+                    >
+                        {updateLoading ? <CircularProgress size={24} thickness={5} sx={{ color: "white" }} /> : "Save"}
+
+                    </Button>
+                </td>
+                <td className={`${style.tbody_cell}`}>
+                    <Button
+                        onClick={()=> handleGenerateTC(student.srId!)}
+                        disabled={rowUpdating || (student as any).isTcIssued}
+                        sx={{
+                            background: "#ee1919",
+                            color: "white",
+                            width: "150px",
+                            fontWeight: 500,
+                            fontSize: "18px",
+                            padding: "0px 10px",
+                            transition: 'background 0.3s ease',
+                            '&:hover': {
+                                background: '#ee0000',
+                            },
+                        }}
+                    >
+                        Generate
+                    </Button>
+                </td>
             </tr>
-                    {/* </Link> */}
+            {/* </Link> */}
         </>
     )
 }

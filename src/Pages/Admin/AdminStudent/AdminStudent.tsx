@@ -142,7 +142,7 @@ const handleTouchMove = (event: React.TouchEvent) => {
                     <tbody className={`${style.tbody_group}`}>
                         {studentList && studentList.length > 0 ? studentList.map((student: StudentDetailnew, index) => {
                             return (
-                                <SingleStudent key={index} student={student} singleStudentIndex={index} />
+                                <SingleStudent key={index} student={student} />
                             )
                         }
                       ) : (

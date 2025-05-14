@@ -71,6 +71,7 @@ const Total: React.FC = () => {
                 <th className={`${style.tfoot_head_cell}`}></th>
                 <th className={`${style.tfoot_head_cell}`}>TOTAL</th>
                 <th className={`${style.tfoot_head_cell}`}></th>
+                <th className={`${style.tfoot_head_cell}`}></th>
                 <th className={`${style.tfoot_head_cell}`}>ADMISSIONFEE</th>
                 <th className={`${style.tfoot_head_cell}`}>AMOUNT PAID</th>
                 <th className={`${style.tfoot_head_cell}`}></th>
@@ -101,6 +102,7 @@ const Total: React.FC = () => {
                 <th className={`${style.tbody_cell}`}></th>
                 <th className={`${style.tbody_cell}`}></th>
                 <th className={`${style.tbody_cell}`}>{totalValues.totalStudents} STUDENTS</th>
+                <th className={`${style.tbody_cell}`}></th>
                 <th className={`${style.tbody_cell}`}></th>
                 <th className={`${style.tbody_cell}`}>{totalValues.adminssionAmt || "-"}</th>
                 <th className={`${style.tbody_cell}`}>{totalValues.adminssionPaidAmt || "-"}</th>

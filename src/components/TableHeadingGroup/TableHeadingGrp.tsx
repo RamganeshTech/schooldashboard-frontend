@@ -20,17 +20,17 @@ const TableHeadingGrp:React.FC = () => {
 
                 <th className={`${style.thead_cell}`}>ADMISSION FEES</th>
                 <th className={`${style.thead_cell}`}>PAID AMOUNT</th>
-               {adminPage && <th className={`${style.thead_cell}`}>BILL NO</th>}
+               <th className={`${style.thead_cell}`}>BILL NO</th>
                 <th className={`${style.thead_cell}`}>FEE DATE</th>
 
                 <th className={`${style.thead_cell}`}>I TERM SEPTEMBER</th>
                 <th className={`${style.thead_cell}`}>I TERM PAID AMOUNT</th>
-                {adminPage && <th className={`${style.thead_cell}`}>BILL NO</th> }
+                <th className={`${style.thead_cell}`}>BILL NO</th>
                 <th className={`${style.thead_cell}`}>FEE DATE</th>
 
                 <th className={`${style.thead_cell}`}>II TERM DECEMBER</th>
                 <th className={`${style.thead_cell}`}>II TERM PAID AMOUNT</th>
-                {adminPage &&  <th className={`${style.thead_cell}`}>BILL NO</th>}
+                 <th className={`${style.thead_cell}`}>BILL NO</th>
                 <th className={`${style.thead_cell}`}>FEE DATE</th>
 
                 <th className={`${style.thead_cell}`}>ANNUAL FEES</th>
@@ -53,6 +53,7 @@ const TableHeadingGrp:React.FC = () => {
                 <th className={`${style.thead_cell}`}>WHATSAPP</th>
                 <th className={`${style.thead_cell}`}>UPDATE</th>
                 <th className={`${style.thead_cell}`}>SAVE</th>
+                {adminPage && <th className={`${style.thead_cell}`}>GENERATE  TC</th>}
               </tr>
   )
 }

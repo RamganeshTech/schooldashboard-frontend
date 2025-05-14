@@ -16,7 +16,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      console.log("getting inside the axiosinterceptors error block")
+      // console.log("getting inside the axiosinterceptors error block")
       originalRequest._retry = true;
 
       //   const newAccessToken = await refreshAccessToken({ userType:"admin" });
@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
       if (newAccessToken) {
         // Set the new access token in the request headers
         // originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-        console.log("retring the original request form axiosinterceptors")
+        // console.log("retring the original request form axiosinterceptors")
         return axiosInstance(originalRequest); // Retry the original request
       }
     }

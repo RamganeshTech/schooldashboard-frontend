@@ -4,7 +4,7 @@ import style from './AccountantInputGroup.module.css'
 import Input from '../../ResuableComponents/Input/Input';
 import { Button, CircularProgress } from '@mui/material';
 import { SchoolContext } from '../../Context/SchoolContextProvider';
-
+import SelectSeriolNo from '../../ResuableComponents/SelectSeriolNo/SelectSeriolNo';
 interface AccountantInputGroupProps {
     student: StudentDetailnew;
     setStudent: React.Dispatch<React.SetStateAction<StudentDetailnew>>;
@@ -16,16 +16,18 @@ const AccountantInputGroup: React.FC<AccountantInputGroupProps> = ({ student, se
 
     if (!context) return;
 
-    const { setStudentList, handleAccountantSubmit, accountantLoading } = context
+    const { setStudentList, handleAccountantSubmit, accountantLoading, studentList } = context
 
 
     let hiddenStudentDetails = [
+        "srId",
         "admissionBillNo",
         "firstTermBillNo",
         "secondTermBillNo",
         "dues",
         "busfirstTermDues",
-        "busSecondTermDues"
+        "busSecondTermDues",
+        "isTcIssued",
     ]
 
     const NumberTypeList = [
@@ -55,12 +57,12 @@ const AccountantInputGroup: React.FC<AccountantInputGroupProps> = ({ student, se
         
             <tr className={`${style.tbody_row} `}>
                 <td className={`${style.tbody_cell} `}>
-
+                        <SelectSeriolNo studentList={studentList} />
                 </td>
 
                 {(Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
 
-                    if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory") {
+                    if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory" && ele !=="nonMandatory" ) {
 
                         const inputType = (ele: string) => {
                             if (dateList.includes(ele)) {
@@ -81,10 +83,12 @@ const AccountantInputGroup: React.FC<AccountantInputGroupProps> = ({ student, se
                                     index={index}
                                     required="no"
                                     state={student[ele]}
-                                    placeholder=''
+                                    placeholder={ele}
                                     setState={setStudent}
                                     updateKey={ele}
                                     type={inputType(ele)}
+                                    updating={false}
+
                                 />
                             </td>)
                     }

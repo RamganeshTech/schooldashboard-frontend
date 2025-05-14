@@ -68,11 +68,6 @@ const AddDetail:React.FC = () => {
     getStudentList()
   }, [])
 
-
-//   useEffect(()=>{
-//     console.log(student)
-// }, [student])
-
   if(loading){
     return <MainLoading />
   }
@@ -89,10 +84,10 @@ const AddDetail:React.FC = () => {
               <TableHeadingGrp />
             </thead>
             <tbody className=''>
-              {studentList && studentList.length > 0 && studentList.map((student: StudentDetailnew, index) => {
+              {studentList && studentList.length > 0 && studentList.map((student: StudentDetailnew) => {
                                 
                 return (
-                  <SingleStudent key={student._id} student={student} singleStudentIndex={index} />
+                  <SingleStudent key={student._id} student={student} />
                 )
               })}
 

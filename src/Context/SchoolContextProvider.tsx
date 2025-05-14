@@ -4,6 +4,7 @@ import { dateConvertor } from '../Utils/dateConverter';
 import { calculateBusFirstTermDues, calculateBusSecondTermDues, calculateDues, generateAdmissionBillNumber, generateFirstTermBillNumber, generateSecondTermBillNumber } from '../Utils/studentUtils';
 import axios from 'axios';
 import axiosInstance from '../Api/apiClient';
+import { allowedStudentClasses, feeStructure } from '../Constants/constants';
 
 export const SchoolContext = createContext<SchoolContextType | null>(null)
 
@@ -12,6 +13,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const apiUrl = import.meta.env.VITE_APP_BASE_API;
 
   const [student, setStudent] = useState<StudentDetailnew>({
+    srId: null,
     newOld: null,
     studentClass: null,
     section: null,
@@ -48,7 +50,6 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     busPoint: null,
     whatsappNumber: null,
-
     mandatory: {
       gender: null,
       dob: null,
@@ -112,6 +113,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   })
 
   const [editStudent, setEditStudent] = useState<EditStudent>({
+    srId: null,
     newOld: null,
     studentClass: null,
     studentName: null,
@@ -205,6 +207,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     key: keyof T,
     value: string | boolean,
     setState: React.Dispatch<React.SetStateAction<T>>,
+    updating: boolean
   ) => {
     try {
       if (typeof value === "string" && value.includes("-") && !isNaN(new Date(value).getTime()) && key !== "studentClass") {
@@ -216,6 +219,65 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           throw new Error("Date cannot be in the future.");
         }
         value = dateConvertor(value);
+      }
+
+      // here im making not to enter any value manually by user
+      if (key === "adminssionAmt" || key === "firstTermAmt" || key === "secondTermAmt" || key === "annualFee") {
+        return;
+      }
+      // console.log("student.studentClass:", student.studentClass);
+      // console.log("editStudent.studentClass:", editStudent.studentClass);
+
+      // for newOld and studentClass keys it will be inside thsi if condition it wont go furthere after the if condition
+      if (key === "newOld" || key === "studentClass") {
+
+        // if both of the values are not set im making the amounts to be null
+        if (!value) {
+          setState(p => ({
+            ...p, adminssionAmt: null,
+            firstTermAmt: null,
+            secondTermAmt: null,
+            annualFee: null,
+          }))
+        }
+
+        const newNewOld = key === "newOld" ? value : (!updating ? student.newOld : editStudent.newOld);
+
+        const kgClass = ["lkg", "ukg", "prekg"]
+
+        // im mkaing if the accountant writes as small letter then im making it as uppercase 
+        const newClass = key === "studentClass" ? (
+          kgClass.includes(value.toString()) ? value.toString().toUpperCase().trim() : value.toString().trim())
+          : (updating ? editStudent.studentClass?.trim() : student.studentClass?.trim());
+
+        if (newNewOld === "new" && newClass && allowedStudentClasses.includes(newClass)) {
+          // console.log("im getting called")
+          setState(prev => {
+            return {
+              ...prev,
+              [key]: value,
+              adminssionAmt: Number(feeStructure?.new[newClass]?.adminssionAmt),
+              firstTermAmt: Number(feeStructure?.new[newClass]?.firstTermAmt),
+              secondTermAmt: Number(feeStructure?.new[newClass]?.secondTermAmt),
+              annualFee: Number(feeStructure?.new[newClass]?.annualFee),
+            }
+
+
+          });
+          return; // prevent double setState below
+        }
+
+        if (newNewOld === "old" && newClass && allowedStudentClasses.includes(newClass)) {
+          setState(prev => ({
+            ...prev,
+            [key]: value,
+            adminssionAmt: Number(feeStructure?.old[newClass]?.adminssionAmt),
+            firstTermAmt: Number(feeStructure?.old[newClass]?.firstTermAmt),
+            secondTermAmt: Number(feeStructure?.old[newClass]?.secondTermAmt),
+            annualFee: Number(feeStructure?.old[newClass]?.annualFee),
+          }));
+          return;
+        }
       }
 
       setState(prev => ({
@@ -238,10 +300,13 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const studentNameRegex = /^[A-Za-z .]+$/;
     const oldNewRegex = /^(old|new)$/i
     const sectionRegex = /^[A-Za-z0-9]+$/
-    const classRegex = /^[A-Za-z0-9|\.]+$/;
+    const classRegex = /^(?:[0-9]|10|prekg|ukg|lkg)$/i;
 
     const whatsappRegex = /^\d{10}$/;
 
+    if (!student.srId) {
+      error.srId = "please select the S.No from the dropdown"
+    }
 
     if (!student.newOld) {
       error.newOld = "Select student is new or old";
@@ -254,7 +319,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       error.studentClass = "Enter the class";
     }
     else if (!classRegex.test(student.studentClass)) {
-      error.studentClass = "Class should not contain any special characters except '|' and '.' ";
+      error.studentClass = "Class should not contain any special characters it shoudl contain only 0-9 and UKG or PREKG or LKG ";
     }
     // Check if the class consists of only '0's
     else if (/^0+$/.test(student.studentClass)) {
@@ -374,6 +439,10 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
 
   }
+
+
+  
+
 
   let value: SchoolContextType = {
     apiUrl,

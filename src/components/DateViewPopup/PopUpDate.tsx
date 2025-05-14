@@ -16,7 +16,7 @@ interface PopUpDateProp {
     isDataSet:boolean;
 }
 
-const PopUpDate: React.FC<PopUpDateProp> = ({ dateData, isDataSet, loading, changesMade }) => {
+const PopUpDate: React.FC<PopUpDateProp> = ({ dateData, isDataSet, loading, changesMade , selectedDateActive}) => {
 
     const context = useContext(SchoolContext)
 
@@ -50,11 +50,12 @@ const PopUpDate: React.FC<PopUpDateProp> = ({ dateData, isDataSet, loading, chan
 
     useEffect(() => {
         if (!loading && isDataSet && changesMade.length > 0 && studentList.length > 0) {
-            setChangedStudent([])
+            // setChangedStudent([])
             const updatedList = changesMade
                 .map((change) => {
                     const student = studentList.find((s) => s._id === change.relationId);
 
+                    console.log("student", student)
                     if (!student) return null; 
 
                     // Convert fieldsModified array into an object with values from student
@@ -74,16 +75,23 @@ const PopUpDate: React.FC<PopUpDateProp> = ({ dateData, isDataSet, loading, chan
 
             setChangedStudent(updatedList);
         }
-    }, [isDataSet]);
+        
+    }, [isDataSet, selectedDateActive, changesMade, loading]);
+
+    useEffect(()=>{
+        setChangedStudent([])
+    }, [selectedDateActive])
 
 
     useEffect(() => {
-        // setIsChangesListAvailable(false)
-
         let isAvailable = ChangedStudent.some(item => Object.keys(item.fieldsModified).length)
-        if (isAvailable) {
-            setIsChangesListAvailable(true)
-        }
+        // if (isAvailable) {
+        //     setIsChangesListAvailable(true)
+        // }
+        // else {
+        //     setIsChangesListAvailable(false)
+        // }
+        setIsChangesListAvailable(isAvailable)
     }, [ChangedStudent])
 
     return (

@@ -11,11 +11,12 @@ interface InputProps<T,> {
   type: string;
   index?:number;
   required:string;
+  updating:boolean;
 }
 
 
 
-const EditInput = ({ state, setState, required, updateKey, type, placeholder }: InputProps<any>) => {
+const EditInput = ({ state, setState, required, updateKey, type, placeholder, updating }: InputProps<any>) => {
     const context = useContext(SchoolContext);
       if (!context) {
         throw new Error("Input must be used within a SchoolContextProvider");
@@ -47,7 +48,7 @@ const EditInput = ({ state, setState, required, updateKey, type, placeholder }: 
             variant='outlined'
             placeholder={placeholder}
             value={handleValue(state)}
-            onChange={(e) => handleInputChange(updateKey, e.target.value, setState)}
+            onChange={(e) => handleInputChange(updateKey, e.target.value, setState, updating)}
             
             
             className='shadow-sm'
