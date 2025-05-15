@@ -172,6 +172,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [deletedLoginError, setDeletedLoginError] = useState<string>("")
 
   const [accountantLoading, setAccountantLoading] = useState<boolean>(false)
+  const [searchLoading, setSearchLoading] = useState<boolean>(false)
 
   const getDeletedLoginList = async () => {
     setDeletedLoginError("")
@@ -465,7 +466,8 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     getDeletedLoginList, setDeletedLoginLoading,
     deletedLoginError, deletedLoginsLoading,
     setDeletedLoginError,
-    accountantLoading
+    accountantLoading,
+    searchLoading, setSearchLoading
   }
 
   return (

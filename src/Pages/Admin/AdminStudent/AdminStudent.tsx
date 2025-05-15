@@ -13,6 +13,7 @@ import MainLoading from '../../../components/MainLoading/MainLoading';
 import { useLocation } from 'react-router-dom';
 import { Button, CircularProgress } from '@mui/material';
 import { downloadFileFromBlob } from '../../../Utils/downloadFileFromBlob';
+import ShimmerTable from '../../../Loading/ShimmerTable/ShimmerTable';
 
 
 const AdminStudent: React.FC = () => {
@@ -21,7 +22,7 @@ const AdminStudent: React.FC = () => {
 
   if (!context) return <MainLoading />;
 
-  const { studentList, setStudentList, adminPage, setAdminPage } = context
+  const { studentList, setStudentList, adminPage, setAdminPage, searchLoading } = context
 
   let location = useLocation()
 
@@ -153,11 +154,11 @@ const AdminStudent: React.FC = () => {
   };
 
 
-  if (loading) {
-    return (
-      <MainLoading />
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <MainLoading />
+  //   );
+  // }
 
   return (
     <div className={`${style.adminStudentTableContainer}h-screen `}>
@@ -167,7 +168,7 @@ const AdminStudent: React.FC = () => {
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
 
-        <h1 className={`text-4xl ${style.adminHeading}`}>Student List</h1>
+          <h1 className={`text-4xl ${style.adminHeading}`}>Student List</h1>
           <Button
             variant='contained'
             onClick={() => {
@@ -177,7 +178,7 @@ const AdminStudent: React.FC = () => {
             }}
             sx={{
               height: "40px",
-              width: "155px !important"
+              width: "170px !important"
             }}
           >
             {fileDownloadLoading ? <CircularProgress thickness={5} size={25} sx={{ color: "#fafafa" }} /> : "Export To Excel"}
@@ -195,7 +196,14 @@ const AdminStudent: React.FC = () => {
           <thead className=''>
             <TableHeadingGrp />
           </thead>
-          <tbody className={`${style.tbody_group}`}>
+          {loading || searchLoading &&
+            <tbody>
+              <ShimmerTable rowCount={10} columnCount={33} />
+            </tbody>
+          }
+
+          {!loading && !searchLoading && <tbody className={`${style.tbody_group}`}>
+
             {studentList && studentList.length > 0 ? studentList.map((student: StudentDetailnew, index) => {
               return (
                 <SingleStudent key={index} student={student} />
@@ -204,14 +212,14 @@ const AdminStudent: React.FC = () => {
             ) : (
               adminPage ? (
                 <tr>
-                  <td colSpan={31} className={`${style.tbody_cell_no_students}`}>
+                  <td colSpan={33} className={`${style.tbody_cell_no_students}`}>
                     No Students Available...
                   </td>
                 </tr>
               ) : null
             )
             }
-          </tbody>
+          </tbody>}
 
           <tfoot className="totalContainer">
             <Total />

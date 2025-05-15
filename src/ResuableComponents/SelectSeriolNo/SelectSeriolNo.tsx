@@ -31,7 +31,6 @@ const SelectSeriolNo: React.FC<SelectSeriolNoProp> = ({ studentList }) => {
           userType: "accountant"
         } as CustomAxiosRequestConfig<void>);
 
-        console.log("data", data)
         if (data.ok) {
           const taken = data.taken;
 

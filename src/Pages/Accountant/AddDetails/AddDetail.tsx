@@ -13,6 +13,7 @@ import MainLoading from '../../../components/MainLoading/MainLoading';
 import ErrorContainer from '../../../components/ErrorContainer/ErrorContainer';
 import { Button, CircularProgress } from '@mui/material';
 import { downloadFileFromBlob } from '../../../Utils/downloadFileFromBlob';
+import ShimmerTable from '../../../Loading/ShimmerTable/ShimmerTable';
 
 const AddDetail: React.FC = () => {
 
@@ -20,7 +21,7 @@ const AddDetail: React.FC = () => {
 
   if (!context) return <MainLoading />;
 
-  const { studentList, setStudentList, student, setStudent, setAdminPage, adminPage } = context
+  const { studentList, setStudentList, student, setStudent, setAdminPage, adminPage, searchLoading } = context
 
   let location = useLocation()
 
@@ -82,7 +83,7 @@ const AddDetail: React.FC = () => {
         userType: `${adminPage ? "admin" : "accountant"}`
       } as CustomAxiosRequestConfig<void>
       )
-      
+
       if (response.statusText !== "OK" && response.status !== 200) throw new Error('Failed to download file');
 
       await downloadFileFromBlob(response.data, 'StudentFees.xlsx'); // Your chosen filename here
@@ -124,7 +125,7 @@ const AddDetail: React.FC = () => {
           }}
           sx={{
             height: "40px",
-            width: "155px !important"
+            width: "170px !important"
           }}
         >
           {fileDownloadLoading ? <CircularProgress thickness={5} size={25} sx={{ color: "#fafafa" }} /> : "Export To Excel"}
@@ -137,18 +138,31 @@ const AddDetail: React.FC = () => {
             <thead>
               <TableHeadingGrp />
             </thead>
-            <tbody className=''>
-              {studentList && studentList.length > 0 && studentList.map((student: StudentDetailnew) => {
+             {loading || searchLoading &&
+            <tbody>
+              <ShimmerTable rowCount={10} columnCount={29} />
+            </tbody>
+          }
+            {!loading && !searchLoading && <tbody className=''>
+              {studentList && studentList.length > 0 ? studentList.map((student: StudentDetailnew) => {
 
                 return (
                   <SingleStudent key={student._id} student={student} />
                 )
-              })}
+              })
+            : (
+                <tr>
+                  <td colSpan={29} className={`${style.tbody_cell_no_students}`}>
+                    No Students Available...
+                  </td>
+                </tr>
+            )
+            }
 
 
               <AccountantInputGroup student={student} setStudent={setStudent} />
 
-            </tbody>
+            </tbody>}
           </table>
 
         </section>

@@ -12,7 +12,7 @@ interface ErrorModalProps {
 
 const ErrorContainer:React.FC<ErrorModalProps> = ({error, onClose}) => {
   return (
-    <div className={style.overlay}>
+    <div className={style.overlay} onClick={onClose}>
                 <div className={style.errorContainer}>
                     <h2 className={style.errorHeading}>Error Occurred</h2>
                     <p className={style.errorMessage}>{error}</p>

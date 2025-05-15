@@ -22,14 +22,11 @@ const NotificationSingleItem: React.FC<NotificationSingleItemProps> = ({ ele , s
     if (!context) return;
 
     const { setNotificationList } = context
-    console.log(ele)
     const handleAllow = async (idx: string) => {
         setLoading(true)
         
         setError("")
         
-        console.log("idx of acceptnotification", idx)
-
         try{
         let abortController = new AbortController()
         let { signal } = abortController
@@ -40,7 +37,7 @@ const NotificationSingleItem: React.FC<NotificationSingleItemProps> = ({ ele , s
         } as CustomAxiosRequestConfig<{}>
         )
 
-        console.log(data.data)
+        // console.log(data.data)
 
         if (data.ok) {
 
@@ -56,9 +53,8 @@ const NotificationSingleItem: React.FC<NotificationSingleItemProps> = ({ ele , s
             const fieldsModified = Object.keys(data.data.fields); // Pass the modified fields as an array of strings
             const relationId = data.data.studentId
 
-            console.log("fieldsModified",fieldsModified)
-            console.log("relationId",relationId)
-            const response = await axiosInstance.post('/api/admin/changesmodified', {
+          
+            await axiosInstance.post('/api/admin/changesmodified', {
                 modifiedDate,
                 fieldsModified,
                 relationId
@@ -66,14 +62,6 @@ const NotificationSingleItem: React.FC<NotificationSingleItemProps> = ({ ele , s
             {
                 userType:"admin"
             } as CustomAxiosRequestConfig<{}>);
-
-            console.log("changes made by admin from api from line 72",response.data.data)
-            if (response.data.ok) {
-                console.log("Changes stored successfully");
-                console.log(response.data.data)
-            } else {
-                console.log("Failed to store changes");
-            }
         }
 
     }
@@ -106,7 +94,7 @@ const NotificationSingleItem: React.FC<NotificationSingleItemProps> = ({ ele , s
         } as CustomAxiosRequestConfig<{}>
         )
 
-        console.log(data.data)
+        // console.log(data.data)
 
         if (data.ok) {
 

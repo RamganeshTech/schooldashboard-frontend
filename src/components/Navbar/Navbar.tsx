@@ -15,22 +15,27 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import EventIcon from '@mui/icons-material/Event';
 
 import axiosInstance from '../../Api/apiClient';
-import { CustomAxiosRequestConfig } from '../../Types/types';
+import { createdResponse, CustomAxiosRequestConfig, StudentDetailnew } from '../../Types/types';
 
 import companyLogo from '../../assets/logo/School Module_ Jai Hind Public School.png'
+import SearchInput from '../../ResuableComponents/SearchInput/SearchInput';
 
-const Navbar:React.FC = () => {
+const Navbar: React.FC = () => {
 
   const context = useContext(SchoolContext);
 
   if (!context) return;
 
 
-  const { adminPage, setAdminPage, isNotificationpage, setIsNotificationPage, isAccountantLoginCreationPage } = context
+  const { adminPage, setAdminPage, isNotificationpage, setIsNotificationPage,
+    isAccountantLoginCreationPage, setStudentList, studentList, setSearchLoading } = context
 
   const [isReportPage, setIsReportPage] = useState<boolean>(false)
+  const [searchTerm, setSearchTerm] = useState<string>("")
 
   const [hasReportAccess, setHasReportAccess] = useState<boolean>(false);
+  const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
+
 
 
   let location = useLocation()
@@ -58,7 +63,15 @@ const Navbar:React.FC = () => {
     if (location.pathname.includes("admin")) {
       setAdminPage(true)
     }
-    
+    const pathArray = location.pathname.split('/')
+    if (pathArray[pathArray.length - 1] === "admin" || pathArray[pathArray.length - 1] === "accountant") {
+      console.log(pathArray)
+      setShowSearchBar(true)
+    }
+    else{
+      setShowSearchBar(false)
+    }
+
   }, [location.pathname])
 
 
@@ -87,6 +100,36 @@ const Navbar:React.FC = () => {
     else {
       navigate('/admin/reports')
 
+    }
+  }
+
+
+  const getStudentList = async () => {
+    let abortController = new AbortController()
+    let { signal } = abortController
+    try {
+      let { data } = await axiosInstance.get<createdResponse>(`/api/${adminPage ? "admin" : "accountant"}/getStudentList`, {
+        signal,
+        userType: `${adminPage ? "admin" : "accountant"}`
+      } as CustomAxiosRequestConfig<StudentDetailnew>
+      )
+
+      if (data.ok) {
+        setStudentList(data.data)
+      }
+
+    }
+    catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response)
+        console.log(error)
+      } else if ((error as Error).name === 'AbortError') {
+        console.log(error)
+      } else if (error instanceof Error) {
+        console.log(error)
+      } else {
+        console.log(error)
+      }
     }
   }
 
@@ -161,7 +204,7 @@ const Navbar:React.FC = () => {
           userType: "accountant"
         } as CustomAxiosRequestConfig<void>);
 
-       setHasReportAccess(data.permissionStatus);
+        setHasReportAccess(data.permissionStatus);
       } catch (error) {
         console.log("Failed to fetch permission status", error);
       }
@@ -172,6 +215,57 @@ const Navbar:React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      const handleSearch = async () => {
+        setSearchLoading(true)
+
+        // for manual delay wrte code with promise and setTimout , this code is going to call teh bakcend api for the searchable data
+
+        if (!searchTerm) {
+          await getStudentList();
+          setSearchLoading(false)
+          return;
+        }
+
+        const isNumeric = /^[0-9]+$/.test(searchTerm);
+        const searchResults = studentList.filter(item => {
+          if (isNumeric) {
+            return item.srId?.slice(2) === searchTerm;
+          } else {
+            return item.studentName?.toLowerCase().includes(searchTerm.toLowerCase());
+          }
+        });
+
+
+        if (searchResults.length > 0) {
+          setStudentList(searchResults);
+          setSearchLoading(false)
+          return;
+        }
+
+        try {
+          const { data } = await axiosInstance.get(
+            `/api/${adminPage ? "admin" : "accountant"}/searchstudent?query=${searchTerm}`,
+            {
+              userType: `${adminPage ? "admin" : "accountant"}`
+            } as CustomAxiosRequestConfig<StudentDetailnew>
+          );
+          setStudentList(data.data);
+        } catch (err) {
+          console.error("Search API failed", err);
+        }
+        finally {
+          setSearchLoading(false)
+        }
+      };
+
+      handleSearch();
+    }, 300);
+
+    return () => clearTimeout(delay);
+  }, [searchTerm]);
+
   return (
     <nav className={`${style.navbarDiv} shadow-md relative z-1`}>
       <div className={`${style.innerDiv}`}>
@@ -180,13 +274,19 @@ const Navbar:React.FC = () => {
 
         <section className='w-[7%] h-[100%]'>
           <Link to={adminPage ? '/admin' : "/accountant"} className='outline-none'>
-          <img src={companyLogo} alt="brand logo" className='h-[100%] w-[100%]'/>
+            <img src={companyLogo} alt="brand logo" className='h-[100%] w-[100%]' />
           </Link>
         </section>
 
+      {showSearchBar && <div className='!w-[250px] absolute right-[350px]'>
+          <SearchInput state={searchTerm} setState={setSearchTerm} width="100%"
+            height="10px" fontSize="18px" borderRadius="5px" padding="15px 5px" color="grey"
+            placeholder='Search by SR no or by Name'
+          />
+        </div>}
+
         {adminPage ? (
           <div className={`${style.btnContainer}`}>
-
             <IconButton
               onClick={handleReports}
               sx={{

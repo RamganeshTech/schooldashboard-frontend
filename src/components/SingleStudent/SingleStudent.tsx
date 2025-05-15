@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { createdResponse, CustomAxiosRequestConfig, EditStudent, StudentDetailnew } from '../../Types/types'
 import style from './SingleStudent.module.css'
 import { SchoolContext } from '../../Context/SchoolContextProvider';
@@ -11,9 +11,11 @@ import { useNavigate } from 'react-router-dom';
 import { studentFieldOrder } from '../../Constants/constants';
 
 
-const nonEditableFields = ["srId", "admissionBillNo",
+const nonEditableFields = [
+    "srId", "admissionBillNo",
     "firstTermBillNo",
     "secondTermBillNo",]
+    
 interface SingleStudentDetail {
     student: StudentDetailnew
 }
@@ -91,19 +93,29 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
     }
 
     const handleRequest = () => {
+        if (currentEditingId && currentEditingId !== student._id) {
+            alert("Please finish editing the other student before editing another.");
+            return;
+        }
+
         setAllowNavigationStudentProfile(false)
         setRowUpdating(true)
         setIsEditing(true)
-
-
         setCurrentEditingId(student._id)
-
         setEditStudent(() => {
 
             const updatedStudent = { ...student };
 
             return updatedStudent;
         });
+    }
+
+    const handleCancelEditing = () => {
+        setRowUpdating(false);
+        setIsEditing(false);
+        setIsStudentListUpdated(true)
+        setAllowNavigationStudentProfile(false)
+        setCurrentEditingId(null)
     }
 
     const handleSave = async () => {
@@ -507,29 +519,25 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
 
     const handleGenerateTC = async (srId: string) => {
         try {
-          const { data } = await axiosInstance.patch(`/api/admin/generatetc/${srId}`, {
-            userType: "admin"
-          } as CustomAxiosRequestConfig<void>)
-    
-          console.log("data", data)
-          if (data.ok) {
-            return data.data
-          }
+            const { data } = await axiosInstance.patch(`/api/admin/generatetc/${srId}`, {
+                userType: "admin"
+            } as CustomAxiosRequestConfig<void>)
+
+            // console.log("data", data)
+            if (data.ok) {
+                return data.data
+            }
         }
         catch (error) {
-          if (axios.isAxiosError(error)) {
-            console.log(error.response?.data?.message || "Something went wrong!");
-          } else if (error instanceof Error) {
-            console.log(error.message);
-          } else {
-            console.log("An unexpected error occurred.");
-          }
+            if (axios.isAxiosError(error)) {
+                console.log(error.response?.data?.message || "Something went wrong!");
+            } else if (error instanceof Error) {
+                console.log(error.message);
+            } else {
+                console.log("An unexpected error occurred.");
+            }
         }
-      }
-
-    useEffect(() => {
-        // console.log("editStudent",editStudent)
-    }, [editStudent])
+    }
 
     //  FOR COLOR ADMINSION AMOUT ALSO
     // let adminssionPaidAmount = ""
@@ -732,8 +740,8 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
                 }
                 <td className={`${style.tbody_cell}`}>
                     <Button
-                        onClick={handleRequest}
-                        disabled={rowUpdating}
+                        onClick={rowUpdating ? handleCancelEditing : handleRequest}
+                        // disabled={rowUpdating}
                         sx={{
                             background: "#f2b84d",
                             color: "white",
@@ -747,7 +755,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
                             },
                         }}
                     >
-                        Update
+                        {rowUpdating ? "Cancel" : "Update"}
                     </Button>
                 </td>
                 <td className={`${style.tbody_cell}`}>
@@ -785,7 +793,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
                 </td>
                 <td className={`${style.tbody_cell}`}>
                     <Button
-                        onClick={()=> handleGenerateTC(student.srId!)}
+                        onClick={() => handleGenerateTC(student.srId!)}
                         disabled={rowUpdating || (student as any).isTcIssued}
                         sx={{
                             background: "#ee1919",

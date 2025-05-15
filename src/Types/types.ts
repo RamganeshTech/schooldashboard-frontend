@@ -232,6 +232,9 @@ export interface SchoolContextType {
   isAccountantLoginCreationPage: boolean;
   setIsAccountantLoginCreationPage: React.Dispatch<React.SetStateAction<boolean>>;
 
+  searchLoading: boolean,
+   setSearchLoading: React.Dispatch<React.SetStateAction<boolean>>;
+
   deletedLoginList: DeltedLogins[];
   setDeletedLoginList: React.Dispatch<React.SetStateAction<DeltedLogins[]>>;
 

@@ -1,68 +1,56 @@
-.adminStudentTableContainer{
-        display: flex;
-        flex-direction: column;
-        height: 100vh; 
-        width: 100vw;
+.adminStudentTableContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
 }
 
-
-.adminHeading{
+.adminHeading {
     margin: 10px 0 25px;
     color: var(--subheading-color);
     font-weight: 600;
 }
 
-.innerDiv{
-    
+.innerDiv {
     margin: 10px auto;
     overflow: scroll;
     padding: 0 20px;
     height: auto;
     transition: transform 0.2s ease-in-out;
-    will-change: transform; 
+    will-change: transform;
     width: auto;
 }
 
 .student_table {
     border-radius: 16px;
-    flex-grow: 1; 
+    flex-grow: 1;
     border-collapse: collapse;
     text-align: center;
-    transform-origin: center; 
-
-    
-    
+    transform-origin: center;
 }
 
-.tbody_group{
-    
+.tbody_group {
     overflow: scroll;
-    
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
-.tbody_group .tbody_cell_no_students{
-   
-
+.tbody_group .tbody_cell_no_students {
     padding: 35px 0;
     margin: 5px 0;
     color: var(--normal-text-color);
-    border-bottom: 2px solid var(--tbody-border-color);  
+    border-bottom: 2px solid var(--tbody-border-color);
     text-align: center;
     font-weight: 500;
     font-size: 28px;
-    overflow-x: scroll ;
+    overflow-x: scroll;
     white-space: nowrap;
 }
 
 .tbody_group tr {
-    
-    table-layout: fixed; 
-    width: 100%; 
+    table-layout: fixed;
+    width: 100%;
 }
-
 
 .totalContainer {
     margin-top: auto;
 }
-
