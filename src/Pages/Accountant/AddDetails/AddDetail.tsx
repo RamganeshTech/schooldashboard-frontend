@@ -11,19 +11,22 @@ import axiosInstance from '../../../Api/apiClient';
 import axios from 'axios';
 import MainLoading from '../../../components/MainLoading/MainLoading';
 import ErrorContainer from '../../../components/ErrorContainer/ErrorContainer';
+import { Button, CircularProgress } from '@mui/material';
+import { downloadFileFromBlob } from '../../../Utils/downloadFileFromBlob';
 
-const AddDetail:React.FC = () => {
+const AddDetail: React.FC = () => {
 
   const context = useContext(SchoolContext);
 
   if (!context) return <MainLoading />;
 
-  const { studentList, setStudentList, student, setStudent, setAdminPage } = context
+  const { studentList, setStudentList, student, setStudent, setAdminPage, adminPage } = context
 
   let location = useLocation()
 
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
+  const [fileDownloadLoading, setFileDownloadloading] = useState<boolean>(false)
 
   const getStudentList = async () => {
     let abortController = new AbortController()
@@ -53,7 +56,7 @@ const AddDetail:React.FC = () => {
         setError("An unexpected error occurred.");
       }
     }
-    finally{
+    finally {
       setLoading(false)
     }
   }
@@ -68,14 +71,65 @@ const AddDetail:React.FC = () => {
     getStudentList()
   }, [])
 
-  if(loading){
+  const handleExportExcel = async () => {
+    let abortController = new AbortController()
+    let { signal } = abortController
+    setFileDownloadloading(true)
+    try {
+      const response: any = await axiosInstance.get(`/api/${adminPage ? "admin" : "accountant"}/excelfile`, {
+        responseType: 'blob',
+        signal,
+        userType: `${adminPage ? "admin" : "accountant"}`
+      } as CustomAxiosRequestConfig<void>
+      )
+      
+      if (response.statusText !== "OK" && response.status !== 200) throw new Error('Failed to download file');
+
+      await downloadFileFromBlob(response.data, 'StudentFees.xlsx'); // Your chosen filename here
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response)
+        setError(error.response?.data?.message || "Something went wrong!");
+      } else if ((error as Error).name === 'AbortError') {
+        setError((error as Error).message)
+      } else if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
+
+      console.log(error)
+    }
+    finally {
+      setFileDownloadloading(false)
+    }
+  };
+
+  if (loading) {
     return <MainLoading />
   }
 
   return (
     <div className={`${style.mainDiv}`}>
 
-      <h1 className={`text-4xl  ${style.heading}`}>Manage Detail</h1>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+
+        <h1 className={`text-4xl  ${style.heading}`}>Manage Detail</h1>
+        <Button
+          variant='contained'
+          onClick={() => {
+            if (!fileDownloadLoading) {
+              handleExportExcel()
+            }
+          }}
+          sx={{
+            height: "40px",
+            width: "155px !important"
+          }}
+        >
+          {fileDownloadLoading ? <CircularProgress thickness={5} size={25} sx={{ color: "#fafafa" }} /> : "Export To Excel"}
+        </Button>
+      </div>
 
       <form action="" autoComplete='on' >
         <section className={`${style.tableContainer}`}>
@@ -85,7 +139,7 @@ const AddDetail:React.FC = () => {
             </thead>
             <tbody className=''>
               {studentList && studentList.length > 0 && studentList.map((student: StudentDetailnew) => {
-                                
+
                 return (
                   <SingleStudent key={student._id} student={student} />
                 )
@@ -102,7 +156,7 @@ const AddDetail:React.FC = () => {
       </form>
 
 
-{!loading && error && <ErrorContainer error={error} onClose={()=> setError("")} />}
+      {!loading && error && <ErrorContainer error={error} onClose={() => setError("")} />}
     </div>
   )
 }
