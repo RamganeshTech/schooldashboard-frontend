@@ -21,6 +21,7 @@ const AccountantInputGroup: React.FC<AccountantInputGroupProps> = ({ student, se
 
     let hiddenStudentDetails = [
         "srId",
+        "studentImage",
         "admissionBillNo",
         "firstTermBillNo",
         "secondTermBillNo",

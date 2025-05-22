@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
     }
     const pathArray = location.pathname.split('/')
     if (pathArray[pathArray.length - 1] === "admin" || pathArray[pathArray.length - 1] === "accountant") {
-      console.log(pathArray)
+      // console.log(pathArray)
       setShowSearchBar(true)
     }
     else{
@@ -221,7 +221,6 @@ const Navbar: React.FC = () => {
         setSearchLoading(true)
 
         // for manual delay wrte code with promise and setTimout , this code is going to call teh bakcend api for the searchable data
-
         if (!searchTerm) {
           await getStudentList();
           setSearchLoading(false)

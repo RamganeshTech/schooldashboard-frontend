@@ -15,16 +15,16 @@ type MandatorySingleProp = {
     student: StudentDetailnew,
 }
 
-function isValidDateString(dateString: string):  string {
+function isValidDateString(dateString: string): string {
     // const date = new Date(dateString);
-        // let convertedDate = date.getDate().toString().padStart(2, "0")
-        // let convertedMonth= (date.getMonth()+1).toString().padStart(2, "0")
-        // let convertedYear = date.getFullYear()
-        // return `${convertedDate}-${convertedMonth}-${convertedYear}`
-        let dateArr = dateString.split('-')
-        return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
-        
-  }
+    // let convertedDate = date.getDate().toString().padStart(2, "0")
+    // let convertedMonth= (date.getMonth()+1).toString().padStart(2, "0")
+    // let convertedYear = date.getFullYear()
+    // return `${convertedDate}-${convertedMonth}-${convertedYear}`
+    let dateArr = dateString.split('-')
+    return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
+
+}
 
 const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
     let context = useContext(SchoolContext)
@@ -64,19 +64,26 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
     const handleUpdate = async () => {
         setIsMandatoryLoading(true)
         try {
+
+            if (!inputValue?.trim()) {
+                return;
+            }
+
             const abortController = new AbortController();
             const { signal } = abortController;
 
+
+
             let valueToSend = inputValue;
 
-            if(item.key==="dob"){
+            if (item.key === "dob") {
                 valueToSend = isValidDateString(valueToSend as string)
             }
 
             const updatePayload = {
-                    profileData: {
-                        [item.key]: valueToSend
-                    }
+                profileData: {
+                    [item.key]: valueToSend
+                }
             };
 
             let { data } = await axiosInstance.patch<createdResponse>(`/api/${adminPage ? "admin" : "accountant"}/updateStudentProfile/${student._id}`, updatePayload, {
@@ -132,7 +139,6 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
     // console.log(inputFieldType)
 
     return (
-
         <>
             <div className={style.details_Row}>
                 <p className={style.label}>{item.label}</p>
@@ -158,6 +164,7 @@ const MandatorySingle: React.FC<MandatorySingleProp> = ({ item, student }) => {
                             value={inputValue ?? ""}
                             onChange={handleMandatoryInputChange}
                             fullWidth
+                            autoFocus
                             type={inputFieldType}
                             placeholder={`Enter ${item.label}`}
                             className={style.mandatoryinputfield}

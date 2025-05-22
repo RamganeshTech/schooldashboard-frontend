@@ -19,7 +19,12 @@ const ShimmerCell: React.FC<ShimmerCellProps> = ({
       width={width}
       height={height}
       animation="wave"
-      sx={{ margin: '0 auto' }}
+      sx={{ margin: '0 auto' , 
+         '&::after': {
+      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+        animationDuration: '0.8s',
+    },
+      }}
     />
   );
 };

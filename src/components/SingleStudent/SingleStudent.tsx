@@ -49,6 +49,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
         // "admissionBillNo",
         // "firstTermBillNo",
         // "secondTermBillNo",
+        "studentImage",
         "dues",
         "busfirstTermDues",
         "busSecondTermDues",
@@ -659,7 +660,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
                 {/* {!adminPage ? (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => { */}
                 {!adminPage ? studentFieldOrder.map((ele, index) => {
                     // FOR ACCOUNTANT
-                    if (!hiddenStudentDetails.includes(ele as string) && ele !== "mandatory" && ele !== "nonMandatory") {
+                    if (!hiddenStudentDetails.includes(ele as string) && ele !== "studentImage" && ele !== "mandatory" && ele !== "nonMandatory") {
 
                         let bgColor = "";
                         if (ele === "firstTermPaidAmt") bgColor = firstTermPaidAmount;
@@ -697,7 +698,7 @@ const SingleStudent: React.FC<SingleStudentDetail> = ({ student }) => {
                     // FOR ADMIN 
                     // (Object.keys(student) as Array<keyof StudentDetailnew>).map((ele, index) => {
                     studentFieldOrder.map((ele, index) => {
-                        if (ele === "_id" || ele === "createdAt" as string || ele === "updatedAt" as string || ele === "__v" as string || ele === "mandatory" || ele === "nonMandatory") {
+                        if (ele === "_id" || ele === "studentImage" || ele === "createdAt" as string || ele === "updatedAt" as string || ele === "__v" as string || ele === "mandatory" || ele === "nonMandatory") {
                             return;
                         }
 

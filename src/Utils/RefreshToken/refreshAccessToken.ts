@@ -35,7 +35,7 @@ export const refreshAccessToken = async ({userType}:RefreshTokenParams)=>{
             withCredentials:true
         }); 
 
-        console.log("from using refresh token to get the accessToken from normal fucntion: ",data)
+        // console.log("from using refresh token to get the accessToken from normal fucntion: ",data)
         
         return data.accessToken; 
     } catch (error) {

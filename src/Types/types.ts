@@ -86,52 +86,53 @@ export interface NonMandatoryDetails {
 
 export interface StudentDetailnew {
   _id?: string | number | null
-
+  
   srId:(string | null);
   newOld: (string | null);
   studentClass: (string | null)
   section: (string | null);
   studentName: (string | null);
-
+  
   adminssionAmt: number | null;
   adminssionPaidAmt: number | null;
   admissionBillNo: number | null;
   admissionDate: string | null;
-
+  
   firstTermAmt: number | null;
   firstTermPaidAmt: number | null;
   firstTermBillNo: number | null;
   firstTermDate: string | null;
-
+  
   secondTermAmt: number | null;
   secondTermPaidAmt: number | null;
   secondTermBillNo: number | null;
   secondTermDate: string | null;
-
+  
   annualFee: number | null;
   annualPaidAmt: number | null;
   dues: number | null;
-
+  
   concession: number | null;
   remarks: string | null;
-
+  
   busFirstTermAmt: number | null;
   busFirstTermPaidAmt: number | null;
   busfirstTermDues: number | null;
-
+  
   busSecondTermAmt: number | null;
   busSecondTermPaidAmt: number | null;
   busSecondTermDues: number | null;
-
+  
   busPoint: string | null;
   whatsappNumber: (string | null);
-
+  
+  studentImage: string;
   // mandatroyDetails
   mandatory: MandatoryDetails
   nonMandatory: NonMandatoryDetails
 }
 
-export type EditStudent = Omit<StudentDetailnew, "mandatory" | "nonMandatory">;
+export type EditStudent = Omit<StudentDetailnew, "mandatory" | "nonMandatory" | "studentImage">;
 
 export interface ErrorStudent {
 

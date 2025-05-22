@@ -50,6 +50,7 @@ const SchoolContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     busPoint: null,
     whatsappNumber: null,
+    studentImage: "",
     mandatory: {
       gender: null,
       dob: null,

@@ -3,6 +3,8 @@ import { Navigate } from 'react-router-dom';
 import MainLoading from '../MainLoading/MainLoading';
 import useRefreshToken from '../../Hooks/useRefreshToken';
 import axios from 'axios';
+import axiosInstance from '../../Api/apiClient';
+import { CustomAxiosRequestConfig } from '../../Types/types';
 
 interface ProtectedRouteProps {
   element: React.ReactNode;
@@ -21,9 +23,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, userType }) =>
   useEffect(() => {
     const checkAuth = async () => {
         try {
-           let {data} =  await axios.get(`${import.meta.env.VITE_APP_BASE_API}/api/${userType}/isAuthUser`, {
-            withCredentials: true
-           })
+           let {data} =  await axiosInstance.get(`/api/${userType}/isAuthUser`, {
+            withCredentials: true,
+            userType
+           } as CustomAxiosRequestConfig<void>)
             setIsAuthenticated(data.authenticated);
         }  catch (error) {
             if (axios.isAxiosError(error)) {

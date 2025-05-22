@@ -55,8 +55,13 @@ const NonMandatorySingle: React.FC<NonMandatorySingleProp> = ({ item, student })
   const handleUpdate = async () => {
     setIsNonMandatoryLoading(true);
     try {
+      if(!inputValue?.trim()) {
+        return;
+      }
+      
       const abortController = new AbortController();
       const { signal } = abortController;
+
 
       // Assume that non-mandatory details are stored in student.nonMandatory (adjust if stored differently)
       const updatePayload = {
@@ -133,6 +138,7 @@ const NonMandatorySingle: React.FC<NonMandatorySingleProp> = ({ item, student })
               value={inputValue ?? ""}
               onChange={handleInputChange}
               fullWidth
+              autoFocus
               type={inputFieldType}
             //   placeholder={`Enter ${item.label}`}
               placeholder={`Enter here`}
