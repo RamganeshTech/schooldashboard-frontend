@@ -1,7 +1,7 @@
 import { ChangeEvent, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import style from './singleStudentNew.module.css'
 import { Link, useParams } from 'react-router-dom';
-import { List, Divider, ListItemButton, ListItemText, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { SchoolContext } from '../../Context/SchoolContextProvider';
 import MainLoading from '../MainLoading/MainLoading';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -24,8 +24,8 @@ const SingleStudentProfile = () => {
 
   let { studentList, adminPage, student, setStudentList } = context;
 
-  const [imgLoading, setImgLoading] = useState<boolean>(false)
-  const [imgUploadError, setImgUploadError] = useState<string>("")
+  const [_imgLoading, setImgLoading] = useState<boolean>(false)
+  const [_imgUploadError, setImgUploadError] = useState<string>("")
 
 
   // console.log(studentList)
