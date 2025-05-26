@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import style from './logincomponet.module.css'
 import { Box, Button, CircularProgress, IconButton, TextField } from '@mui/material';
 import { LoginCredentials } from '../../../Types/types';
-import accountant from "../../../assets/accountant_login.jpg"
-import admin from "../../../assets/admin_login.jpg"
+// import accountant from "../../../assets/accountant_login.jpg"
+// import admin from "../../../assets/admin_login.jpg"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -12,6 +12,7 @@ import { SchoolContext } from '../../../Context/SchoolContextProvider';
 import axios from 'axios'
 import MainLoading from '../../../components/MainLoading/MainLoading';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import companyLogo from '../../../assets/logo/School Module_ Jai Hind Public School.png'
 
 const AdminLogin = () => {
 
@@ -171,8 +172,6 @@ const AdminLogin = () => {
 
     }
 
-
-
     useEffect(() => {
         return () => {
             controller?.abort();
@@ -200,7 +199,7 @@ const AdminLogin = () => {
                     </Button>
                 </Link>
             </div>
-            <div className="w-3/5 h-4/5 flex shadow-lg rounded-lg overflow-hidden">
+            <div className="w-3/5 h-4/5 flex shadow-lg rounded-lg  overflow-hidden">
                 {/* Left Section */}
                 <div className={`${style.leftDiv} w-full lg:w-1/2 flex flex-col justify-start items-center`}>
                     <div className="w-[90%] max-w-md flex flex-col gap-14 ">
@@ -353,16 +352,12 @@ const AdminLogin = () => {
                         </form>
                     </div>
                 </div>
+
+                <div className='w-[1px] bg-[#00000018] '></div>
                 {/* Right Section */}
-                <div className="hidden lg:flex lg:w-1/2 bg-green-500 items-center justify-center relative">
-                    {/* <div className="absolute inset-0 bg-green-500 opacity-75">
-                    </div> */}
-                    {/* <div className="relative z-10 text-white p-8"> */}
-                    {/* <h2 className="text-3xl font-semibold mb-4">
-                            A Paradigm shift in Dental Health with Crowne
-                        </h2> */}
-                    <img alt="Admin image" className="w-full" height="400" src={isAdmin ? admin : accountant} width="300" />
-                    {/* </div> */}
+                <div className="hidden lg:flex lg:w-1/2 bg-[#F6F5FA] items-center justify-center relative">
+                    {/* <img alt="Admin image" className="w-full" height="400" src={isAdmin ? admin : accountant} width="300" /> */}
+                    <img alt="Admin image" className="w-full" height="400" src={companyLogo} width="300" />
                 </div>
             </div>
         </div>

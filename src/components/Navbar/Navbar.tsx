@@ -121,7 +121,7 @@ const Navbar: React.FC = () => {
     }
     catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log(error.response)
+        // console.log(error.response)
         console.log(error)
       } else if ((error as Error).name === 'AbortError') {
         console.log(error)
